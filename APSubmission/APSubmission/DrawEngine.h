@@ -11,7 +11,6 @@ class DrawEngine
 private:
 	int columns = 120;
 	int rows = 30;
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	int Map[30][120];
 public:
 	DrawEngine();
