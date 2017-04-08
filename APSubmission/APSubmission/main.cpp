@@ -17,7 +17,7 @@ void LogicThread()
 	while (true)
 	{
 		de->Draw();
-		Sleep(0.2 * 1000);
+		wait(0.2);
 	}
 }
 
@@ -26,6 +26,7 @@ int main()
 	SetConsoleTitle(L"APSubmission");
 	de = new DrawEngine();
 	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)LogicThread, NULL, NULL, NULL);
+	de->FillScreen(' ');
 	de->DrawBox('+', 0, 0, 20, 20, 1);
 	while (true) {
 		if (GetAsyncKeyState(VK_ESCAPE))
