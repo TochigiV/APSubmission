@@ -21,13 +21,9 @@ DrawEngine *de;
 int main()
 {
 	SetConsoleTitle(L"APSubmission");
-	//pause();
 	de = new DrawEngine();
-	while (true) {
-		de->FillScreen('@');
-		pause();
-		wait(1 / 60);
-	}
-	//pause();
+	de->FillScreen('@');
+	pause();
+	delete de;
 	return 0;
 }
