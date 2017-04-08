@@ -13,7 +13,7 @@ private:
 	int rows;
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 public:
-	void Init();
+	DrawEngine();
 	void FillScreen(char letter);
 	void DrawLine(char letter, int x, int y, int w, int h);
 };
