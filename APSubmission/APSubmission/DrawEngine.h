@@ -4,5 +4,19 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <Windows.h>
 
-void FillScreen(char letter);
+class de
+{
+private:
+	int columns;
+	int rows;
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+public:
+	void Init();
+	void FillScreen(char letter);
+	void DrawLine(char letter, int x, int y, int w, int h);
+};
+
+
+extern de DrawLine;

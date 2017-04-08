@@ -12,16 +12,19 @@
 
 void pause()
 {
-	printf("\nPress enter to continue . . .");
+	printf("\nPress enter to continue . . .\n");
 	getchar();
 }
+
+de DrawEngine;
 
 int main()
 {
 	SetConsoleTitle(L"APSubmission");
 	//pause();
+	DrawEngine.Init();
 	while (true) {
-		FillScreen('@');
+		DrawEngine.FillScreen('@');
 		pause();
 		wait(1 / 60);
 	}
