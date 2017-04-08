@@ -65,5 +65,5 @@ void DrawEngine::Draw()
 
 DrawEngine::DrawEngine()
 {
-	FillScreen('@');
+	FillScreen(' ');
 }
