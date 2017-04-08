@@ -6,7 +6,7 @@
 #include <vector>
 #include <Windows.h>
 
-class de
+class dEngine
 {
 private:
 	int columns;
@@ -19,4 +19,4 @@ public:
 };
 
 
-extern de DrawLine;
+extern dEngine DrawLine;

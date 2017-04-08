@@ -16,7 +16,7 @@ void pause()
 	getchar();
 }
 
-de DrawEngine;
+dEngine DrawEngine;
 
 int main()
 {
