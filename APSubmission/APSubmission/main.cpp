@@ -26,7 +26,7 @@ int main()
 	SetConsoleTitle(L"APSubmission");
 	de = new DrawEngine();
 	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)LogicThread, NULL, NULL, NULL);
-	de->DrawBox('+', 0, 0, 20, 20, 1);
+	de->DrawBox('+', 5, 5, 20, 20, 1);
 	while (true) {
 		if (GetAsyncKeyState(VK_ESCAPE))
 			break;

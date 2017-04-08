@@ -38,10 +38,10 @@ void DrawEngine::FillScreen(char letter)
 			Map[y][x] = letterToInt(letter);
 }
 
-void DrawEngine::DrawLine(char letter, int x, int y, int l, int thickness)
+void DrawEngine::DrawRect(char letter, int x, int y, int l, int w)
 {
 	int la = l;
-	int wa = thickness;
+	int wa = w;
 	for (int a = x; a < (la + x); a++)
 		Map[y][a] = letterToInt(letter);
 	for (int b = y; b < (wa + y); b++)
@@ -50,10 +50,10 @@ void DrawEngine::DrawLine(char letter, int x, int y, int l, int thickness)
 
 void DrawEngine::DrawBox(char letter, int x, int y, int w, int l, int thickness)
 {
-	DrawLine(letter, x, y, w, thickness);
-	DrawLine(letter, x, y, thickness, l);
-	DrawLine(letter, (x + w)-1, y, thickness, w);
-	DrawLine(letter, x, (y + l)-1, l, thickness);
+	DrawRect(letter, x, y, w, thickness);
+	DrawRect(letter, x, y, thickness, l);
+	DrawRect(letter, (x + w)-1, y, thickness, w);
+	DrawRect(letter, x, (y + l)-1, l, thickness);
 }
 
 void DrawEngine::Draw()

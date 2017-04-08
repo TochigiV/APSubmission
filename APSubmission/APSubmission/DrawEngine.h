@@ -15,7 +15,7 @@ private:
 public:
 	DrawEngine();
 	void FillScreen(char letter);
-	void DrawLine(char letter, int x, int y, int l, int thickness);
+	void DrawRect(char letter, int x, int y, int l, int thickness);
 	void DrawBox(char letter, int x, int y, int l, int w, int thickness);
 	void Draw();
 };
