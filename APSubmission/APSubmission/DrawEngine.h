@@ -9,11 +9,14 @@
 class DrawEngine
 {
 private:
-	int columns;
-	int rows;
+	int columns = 120;
+	int rows = 30;
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	int Map[30][120];
 public:
 	DrawEngine();
 	void FillScreen(char letter);
-	void DrawLine(char letter, int x, int y, int w, int h);
+	void DrawLine(char letter, int x, int y, int l, int thickness);
+	void DrawBox(char letter, int x, int y, int l, int w, int thickness);
+	void Draw();
 };

@@ -12,18 +12,27 @@
 
 void pause()
 {
-	printf("\nPress enter to continue . . .\n");
 	getchar();
 }
 
 DrawEngine *de;
 
+void LogicThread()
+{
+	while (true)
+	{
+		de->Draw();
+		Sleep(0.2 * 1000);
+	}
+}
+
 int main()
 {
 	SetConsoleTitle(L"APSubmission");
 	de = new DrawEngine();
+	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)LogicThread, NULL, NULL, NULL);
 	de->FillScreen('@');
+	de->DrawBox('+', 0, 0, 20, 20, 1);
 	pause();
-	delete de;
 	return 0;
 }
