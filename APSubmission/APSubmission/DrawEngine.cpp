@@ -1,6 +1,7 @@
 #include "DrawEngine.h"
 
 /*
+0= 
 1=@
 2=+
 3=#
@@ -33,12 +34,8 @@ char intToLetter(int val)
 void DrawEngine::FillScreen(char letter)
 {
 	for (int a = 0; a < rows; a++)
-	{
 		for (int i = 0; i < columns; i++)
-		{
 			Map[a][i] = letterToInt(letter);
-		}
-	}
 }
 
 void DrawEngine::DrawLine(char letter, int x, int y, int l, int thickness)
@@ -46,13 +43,9 @@ void DrawEngine::DrawLine(char letter, int x, int y, int l, int thickness)
 	int la = l;
 	int wa = thickness;
 	for (int a = x; a < (la + x); a++)
-	{
 		Map[y][a] = letterToInt(letter);
-	}
 	for (int b = y; b < (wa + y); b++)
-	{
 		Map[b][x] = letterToInt(letter);
-	}
 }
 
 void DrawEngine::DrawBox(char letter, int x, int y, int w, int l, int thickness)
@@ -66,12 +59,8 @@ void DrawEngine::DrawBox(char letter, int x, int y, int w, int l, int thickness)
 void DrawEngine::Draw()
 {
 	for (int a = 0; a < rows; a++)
-	{
 		for (int i = 0; i < columns; i++)
-		{
 			putchar(intToLetter(Map[a][i]));
-		}
-	}
 }
 
 DrawEngine::DrawEngine()
