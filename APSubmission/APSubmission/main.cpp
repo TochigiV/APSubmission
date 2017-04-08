@@ -16,15 +16,15 @@ void pause()
 	getchar();
 }
 
-dEngine DrawEngine;
+DrawEngine de;
 
 int main()
 {
 	SetConsoleTitle(L"APSubmission");
 	//pause();
-	DrawEngine.Init();
+	de.Init();
 	while (true) {
-		DrawEngine.FillScreen('@');
+		de.FillScreen('@');
 		pause();
 		wait(1 / 60);
 	}

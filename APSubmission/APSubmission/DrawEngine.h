@@ -6,7 +6,7 @@
 #include <vector>
 #include <Windows.h>
 
-class dEngine
+class DrawEngine
 {
 private:
 	int columns;
@@ -17,6 +17,3 @@ public:
 	void FillScreen(char letter);
 	void DrawLine(char letter, int x, int y, int w, int h);
 };
-
-
-extern dEngine DrawLine;
