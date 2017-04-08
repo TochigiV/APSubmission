@@ -33,9 +33,9 @@ char intToLetter(int val)
 
 void DrawEngine::FillScreen(char letter)
 {
-	for (int a = 0; a < rows; a++)
-		for (int i = 0; i < columns; i++)
-			Map[a][i] = letterToInt(letter);
+	for (int y = 0; y < rows; y++)
+		for (int x = 0; x < columns; x++)
+			Map[y][x] = letterToInt(letter);
 }
 
 void DrawEngine::DrawLine(char letter, int x, int y, int l, int thickness)
@@ -58,9 +58,9 @@ void DrawEngine::DrawBox(char letter, int x, int y, int w, int l, int thickness)
 
 void DrawEngine::Draw()
 {
-	for (int a = 0; a < rows; a++)
-		for (int i = 0; i < columns; i++)
-			putchar(intToLetter(Map[a][i]));
+	for (int y = 0; y < rows; y++)
+		for (int x = 0; x < columns; x++)
+			putchar(intToLetter(Map[y][x]));
 }
 
 DrawEngine::DrawEngine()
