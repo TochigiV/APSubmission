@@ -36,5 +36,6 @@ int main()
 		de->Draw();
 		wait(0.2);
 	}
+	FreeConsole();
 	return 0;
 }
