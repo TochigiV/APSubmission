@@ -22,7 +22,8 @@ int main()
 	SetConsoleTitle(L"APSubmission");
 	de = new DrawEngine();
 	de->DrawBox('+', 5, 5, 20, 20, 1);
-	game.SpawnPlayer('#', 10, 10);
+	//game.SpawnPlayer('#', 10, 10);
+	game.SpawnPlayer('#', 5, 5);
 	while (true) {
 		if (GetAsyncKeyState(VK_ESCAPE))
 			break;

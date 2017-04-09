@@ -13,8 +13,7 @@ void Game::SpawnPlayer(char letter, int x, int y)
 	}
 	else
 	{
-		MessageBox(NULL, L"You can't spawn the player in a wall!", L"Game Error", MB_OK | MB_ICONERROR);
-		exit(0);
+		SpawnPlayer(letter, (x + 1), (y + 1));
 	}
 }
 
