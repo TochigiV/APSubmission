@@ -25,13 +25,13 @@ int main()
 	while (true) {
 		if (GetAsyncKeyState(VK_ESCAPE))
 			break;
-		else if (GetAsyncKeyState(0x57) || GetAsyncKeyState(VK_UP))
+		else if (GetAsyncKeyState(0x57/*W*/) || GetAsyncKeyState(VK_UP))
 			game.MovePlayerUp();
-		else if (GetAsyncKeyState(0x53) || GetAsyncKeyState(VK_DOWN))
+		else if (GetAsyncKeyState(0x53/*S*/) || GetAsyncKeyState(VK_DOWN))
 			game.MovePlayerDown();
-		else if (GetAsyncKeyState(0x41) || GetAsyncKeyState(VK_LEFT))
+		else if (GetAsyncKeyState(0x41/*A*/) || GetAsyncKeyState(VK_LEFT))
 			game.MovePlayerLeft();
-		else if (GetAsyncKeyState(0x44) || GetAsyncKeyState(VK_RIGHT))
+		else if (GetAsyncKeyState(0x44/*D*/) || GetAsyncKeyState(VK_RIGHT))
 			game.MovePlayerRight();
 		de->Draw();
 		wait(0.2);
