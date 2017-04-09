@@ -18,5 +18,8 @@ public:
 	void DrawSinglePixel(char letter, int x, int y);
 	void DrawRect(char letter, int x, int y, int l, int thickness);
 	void DrawBox(char letter, int x, int y, int l, int w, int thickness);
+	char GetLetter(int x, int y);
 	void Draw();
 };
+
+extern DrawEngine *de;

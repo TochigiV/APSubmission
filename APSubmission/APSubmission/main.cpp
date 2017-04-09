@@ -7,30 +7,34 @@
 #include <time.h>
 
 #include "DrawEngine.h"
+#include "Game.h"
 
 #define wait(x) Sleep(x * 1000)
 
 DrawEngine *de;
-
-void LogicThread()
-{
-	while (true)
-	{
-		de->Draw();
-		wait(0.2);
-	}
-}
+Game game;
 
 int main()
 {
+	char buf[120];
+	setvbuf(stdout, buf, _IOFBF, 120);
 	SetConsoleTitle(L"APSubmission");
 	de = new DrawEngine();
-	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)LogicThread, NULL, NULL, NULL);
 	de->DrawBox('+', 5, 5, 20, 20, 1);
-	de->DrawSinglePixel('#', 2, 2);
+	game.SpawnPlayer('#', 10, 10);
 	while (true) {
 		if (GetAsyncKeyState(VK_ESCAPE))
 			break;
+		else if (GetAsyncKeyState(0x57) || GetAsyncKeyState(VK_UP))
+			game.MovePlayerUp();
+		else if (GetAsyncKeyState(0x53) || GetAsyncKeyState(VK_DOWN))
+			game.MovePlayerDown();
+		else if (GetAsyncKeyState(0x41) || GetAsyncKeyState(VK_LEFT))
+			game.MovePlayerLeft();
+		else if (GetAsyncKeyState(0x44) || GetAsyncKeyState(VK_RIGHT))
+			game.MovePlayerRight();
+		de->Draw();
+		wait(0.2);
 	}
 	return 0;
 }

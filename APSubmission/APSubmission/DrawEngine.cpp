@@ -29,6 +29,7 @@ char intToLetter(int val)
 		return '+';
 	else if (val == 3)
 		return '#';
+	else return ' ';
 }
 
 void DrawEngine::FillScreen(char letter)
@@ -59,6 +60,11 @@ void DrawEngine::DrawBox(char letter, int x, int y, int w, int l, int thickness)
 	DrawRect(letter, x, y, thickness, l);
 	DrawRect(letter, (x + w)-1, y, thickness, w);
 	DrawRect(letter, x, (y + l)-1, l, thickness);
+}
+
+char DrawEngine::GetLetter(int x, int y)
+{
+	return intToLetter(Map[y][x]);
 }
 
 void DrawEngine::Draw()
