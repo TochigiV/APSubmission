@@ -10,11 +10,10 @@
 #include "Game.h"
 
 #define wait(x) Sleep(x * 1000)
+#define BUFF_SIZE 119
 
 DrawEngine *de;
 Game game;
-
-#define BUFF_SIZE 119
 
 int main()
 {
