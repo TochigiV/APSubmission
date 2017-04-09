@@ -38,6 +38,11 @@ void DrawEngine::FillScreen(char letter)
 			Map[y][x] = letterToInt(letter);
 }
 
+void DrawEngine::DrawSinglePixel(char letter, int x, int y)
+{
+	Map[y][x] = letterToInt(letter);
+}
+
 void DrawEngine::DrawRect(char letter, int x, int y, int l, int w)
 {
 	int la = l;
