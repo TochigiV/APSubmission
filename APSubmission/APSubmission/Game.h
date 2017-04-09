@@ -1,7 +1,5 @@
 #pragma once
 
-//todo: make character detect walls
-
 class Game
 {
 private:
