@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "DrawEngine.h"
 
+//+ = wall
+
 void Game::SpawnPlayer(char letter, int x, int y)
 {
 	if (de->GetLetter(x, y) != '+')
