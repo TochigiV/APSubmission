@@ -12,32 +12,40 @@ void Game::SpawnPlayer(char letter, int x, int y)
 
 void Game::MovePlayerUp()
 {
-	de->DrawSinglePixel(prevChar, playerX, playerY);
-	playerY--;
-	prevChar = de->GetLetter(playerX, playerY);
-	de->DrawSinglePixel(playerChar, playerX, playerY);
+	if (playerY != 0) {
+		de->DrawSinglePixel(prevChar, playerX, playerY);
+		playerY--;
+		prevChar = de->GetLetter(playerX, playerY);
+		de->DrawSinglePixel(playerChar, playerX, playerY);
+	}
 }
 
 void Game::MovePlayerDown()
 {
-	de->DrawSinglePixel(prevChar, playerX, playerY);
-	playerY++;
-	prevChar = de->GetLetter(playerX, playerY);
-	de->DrawSinglePixel(playerChar, playerX, playerY);
+	if (playerY != 29) {
+		de->DrawSinglePixel(prevChar, playerX, playerY);
+		playerY++;
+		prevChar = de->GetLetter(playerX, playerY);
+		de->DrawSinglePixel(playerChar, playerX, playerY);
+	}
 }
 
 void Game::MovePlayerLeft()
 {
-	de->DrawSinglePixel(prevChar, playerX, playerY);
-	playerX--;
-	prevChar = de->GetLetter(playerX, playerY);
-	de->DrawSinglePixel(playerChar, playerX, playerY);
+	if (playerX != 0) {
+		de->DrawSinglePixel(prevChar, playerX, playerY);
+		playerX--;
+		prevChar = de->GetLetter(playerX, playerY);
+		de->DrawSinglePixel(playerChar, playerX, playerY);
+	}
 }
 
 void Game::MovePlayerRight()
 {
-	de->DrawSinglePixel(prevChar, playerX, playerY);
-	playerX++;
-	prevChar = de->GetLetter(playerX, playerY);
-	de->DrawSinglePixel(playerChar, playerX, playerY);
+	if (playerX != 119) {
+		de->DrawSinglePixel(prevChar, playerX, playerY);
+		playerX++;
+		prevChar = de->GetLetter(playerX, playerY);
+		de->DrawSinglePixel(playerChar, playerX, playerY);
+	}
 }

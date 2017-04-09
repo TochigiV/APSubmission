@@ -14,10 +14,12 @@
 DrawEngine *de;
 Game game;
 
+#define BUFF_SIZE 119
+
 int main()
 {
-	char buf[120];
-	setvbuf(stdout, buf, _IOFBF, 120);
+	char buf[BUFF_SIZE];
+	setvbuf(stdout, buf, _IOFBF, BUFF_SIZE);
 	SetConsoleTitle(L"APSubmission");
 	de = new DrawEngine();
 	de->DrawBox('+', 5, 5, 20, 20, 1);
