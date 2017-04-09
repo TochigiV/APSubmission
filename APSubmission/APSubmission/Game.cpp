@@ -8,7 +8,6 @@ void Game::SpawnPlayer(char letter, int x, int y)
 	prevChar = de->GetLetter(x, y);
 	playerChar = letter;
 	de->DrawSinglePixel(playerChar, playerX, playerY);
-	//de->Draw();
 }
 
 void Game::MovePlayerUp()
@@ -17,7 +16,6 @@ void Game::MovePlayerUp()
 	playerY--;
 	prevChar = de->GetLetter(playerX, playerY);
 	de->DrawSinglePixel(playerChar, playerX, playerY);
-	//de->Draw();
 }
 
 void Game::MovePlayerDown()
@@ -26,7 +24,6 @@ void Game::MovePlayerDown()
 	playerY++;
 	prevChar = de->GetLetter(playerX, playerY);
 	de->DrawSinglePixel(playerChar, playerX, playerY);
-	//de->Draw();
 }
 
 void Game::MovePlayerLeft()
@@ -35,7 +32,6 @@ void Game::MovePlayerLeft()
 	playerX--;
 	prevChar = de->GetLetter(playerX, playerY);
 	de->DrawSinglePixel(playerChar, playerX, playerY);
-	//de->Draw();
 }
 
 void Game::MovePlayerRight()
@@ -44,5 +40,4 @@ void Game::MovePlayerRight()
 	playerX++;
 	prevChar = de->GetLetter(playerX, playerY);
 	de->DrawSinglePixel(playerChar, playerX, playerY);
-	//de->Draw();
 }
