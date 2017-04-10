@@ -9,7 +9,7 @@
 #include "Game.h"
 
 #define wait(x) Sleep(x * 1000)
-#define BUFF_SIZE 60
+#define BUFF_SIZE 50
 
 Game *game;
 
@@ -39,7 +39,7 @@ int main()
 		else if (GetAsyncKeyState(0x44/*D*/) || GetAsyncKeyState(VK_RIGHT))
 			game->MovePlayerRight();
 		game->de->Draw(); //re-draw the scene
-		wait(0.0333333333333333); 
+		wait(0.1); 
 	}
 	FreeConsole();
 	return 0;
