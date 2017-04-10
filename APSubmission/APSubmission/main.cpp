@@ -18,9 +18,10 @@ int main()
 	char buf[BUFF_SIZE];
 	setvbuf(stdout, buf, _IOFBF, BUFF_SIZE);
 	SetConsoleTitle(L"APSubmission");
-	game = new Game('#', 10, 10); //new game instance, spawn player (#) at x: 10 y: 10
+	game = new Game('@', 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
 	game->SetWallCharacter('+'); //sets the character that will act as a wall
 	game->de->DrawBox('+', 5, 5, 20, 20, 1);
+	game->de->DrawRect(' ', 24, 10, 1, 10);
 	while (true) {
 		if (GetAsyncKeyState(VK_ESCAPE))
 			break;
