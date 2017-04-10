@@ -26,8 +26,8 @@ void DrawEngine::DrawBox(char letter, int x, int y, int w, int l, int thickness)
 {
 	DrawRect(letter, x, y, w, thickness);
 	DrawRect(letter, x, y, thickness, l);
-	DrawRect(letter, (x + w)-1, y, thickness, w);
-	DrawRect(letter, x, (y + l)-1, l, thickness);
+	DrawRect(letter, (x + w) - 1, y, thickness, w);
+	DrawRect(letter, x, (y + l) - 1, l, thickness);
 }
 
 char DrawEngine::GetLetter(int x, int y)
