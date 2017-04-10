@@ -11,7 +11,7 @@ class DrawEngine
 private:
 	int columns = 120;
 	int rows = 30;
-	int Map[30][120]; //Map[y][x]
+	char Map[30][120]; //Map[y][x]
 public:
 	DrawEngine();
 	void FillScreen(char letter);
@@ -21,5 +21,3 @@ public:
 	char GetLetter(int x, int y);
 	void Draw();
 };
-
-extern DrawEngine *de;
