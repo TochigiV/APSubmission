@@ -14,11 +14,9 @@ void DrawEngine::DrawSinglePixel(char letter, int x, int y)
 
 void DrawEngine::DrawRect(char letter, int x, int y, int l, int w)
 {
-	int la = l;
-	int wa = w;
-	for (int a = x; a < (la + x); a++)
+	for (int a = x; a < (l + x); a++)
 		Map[y][a] = letter;
-	for (int b = y; b < (wa + y); b++)
+	for (int b = y; b < (w + y); b++)
 		Map[b][x] = letter;
 }
 
