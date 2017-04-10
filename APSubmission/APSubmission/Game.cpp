@@ -32,7 +32,7 @@ void Game::MovePlayerUp()
 
 void Game::MovePlayerDown()
 {
-	if (playerY != 29 && de->GetLetter(playerX, (playerY + 1)) != wallChars)
+	if (playerY != 28 && de->GetLetter(playerX, (playerY + 1)) != wallChars)
 	{
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerY++;
