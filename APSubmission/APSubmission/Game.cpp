@@ -13,7 +13,7 @@ void Game::SpawnPlayer(char letter, int x, int y)
 		playerChar = letter;
 		de->DrawSinglePixel(playerChar, playerX, playerY);
 	}
-	else SpawnPlayer(letter, (x + 1), (y + 1));
+	else SpawnPlayer(letter, (x + 1), (y + 1)); //this will recurse until it gets to a point that isn't a wall
 }
 
 void Game::MovePlayerUp()
