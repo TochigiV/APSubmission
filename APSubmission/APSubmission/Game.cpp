@@ -14,15 +14,14 @@ Game::Game(char letter, int x, int y)
 	else Game(letter, (x + 1), (y + 1));
 }
 
-void Game::AddWallCharacters(std::vector<char> wallChar)
+void Game::SetWallCharacter(char wallChar)
 {
-	for(int i = 0; i < wallChar.size(); i++)
-		wallChars.push_back(wallChar[i]);
+	wallChars = wallChar;
 }
 
 void Game::MovePlayerUp()
 {
-	if (playerY != 0 && de->GetLetter(playerX, (playerY - 1)) != '+')
+	if (playerY != 0 && de->GetLetter(playerX, (playerY - 1)) != wallChars)
 	{
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerY--;
@@ -33,7 +32,7 @@ void Game::MovePlayerUp()
 
 void Game::MovePlayerDown()
 {
-	if (playerY != 29 && de->GetLetter(playerX, (playerY + 1)) != '+')
+	if (playerY != 29 && de->GetLetter(playerX, (playerY + 1)) != wallChars)
 	{
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerY++;
@@ -44,7 +43,7 @@ void Game::MovePlayerDown()
 
 void Game::MovePlayerLeft()
 {
-	if (playerX != 0 && de->GetLetter((playerX - 1), playerY) != '+')
+	if (playerX != 0 && de->GetLetter((playerX - 1), playerY) != wallChars)
 	{
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerX--;
@@ -55,7 +54,7 @@ void Game::MovePlayerLeft()
 
 void Game::MovePlayerRight()
 {
-	if (playerX != 119 && de->GetLetter((playerX + 1), playerY) != '+')
+	if (playerX != 119 && de->GetLetter((playerX + 1), playerY) != wallChars)
 	{
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerX++;

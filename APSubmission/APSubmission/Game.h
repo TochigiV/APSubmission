@@ -9,13 +9,13 @@ private:
 	int playerY;
 	char prevChar;
 	char playerChar;
-	std::vector<char> wallChars;
+	char wallChars;
 public:
 	DrawEngine *de;
 	Game(char letter, int x, int y);
 	int GetPlayerX() { return playerX; }
 	int GetPlayerY() { return playerY; }
-	void AddWallCharacters(std::vector<char> wallChar);
+	void SetWallCharacter(char wallChar);
 	void MovePlayerUp();
 	void MovePlayerDown();
 	void MovePlayerLeft();

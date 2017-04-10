@@ -18,8 +18,8 @@ int main()
 	char buf[BUFF_SIZE];
 	setvbuf(stdout, buf, _IOFBF, BUFF_SIZE);
 	SetConsoleTitle(L"APSubmission");
-	game = new Game('#', 10, 10);
-	game->AddWallCharacters({ '+', '@', '=' });
+	game = new Game('#', 10, 10); //new game instance, spawn player (#) at x: 10 y: 10
+	game->SetWallCharacter('+'); //sets the character that will act as a wall
 	game->de->DrawBox('+', 5, 5, 20, 20, 1);
 	while (true) {
 		if (GetAsyncKeyState(VK_ESCAPE))
@@ -32,7 +32,7 @@ int main()
 			game->MovePlayerLeft();
 		else if (GetAsyncKeyState(0x44/*D*/) || GetAsyncKeyState(VK_RIGHT))
 			game->MovePlayerRight();
-		game->de->Draw();
+		game->de->Draw(); //re-draw the scene
 		wait(0.2);
 	}
 	FreeConsole();
