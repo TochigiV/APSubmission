@@ -9,7 +9,7 @@
 #include "Game.h"
 
 #define wait(x) Sleep(x * 1000)
-#define BUFF_SIZE 120
+#define BUFF_SIZE 60
 
 Game *game;
 
@@ -21,8 +21,7 @@ Game *game;
 
 int main()
 {
-	char buf[BUFF_SIZE];
-	setvbuf(stdout, buf, _IOFBF, BUFF_SIZE);
+	setvbuf(stdout, NULL, _IOFBF, BUFF_SIZE);
 	SetConsoleTitle(L"APSubmission");
 	game = new Game('@', 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
 	game->SetWallCharacter('+'); //sets the character that will act as a wall
@@ -40,7 +39,7 @@ int main()
 		else if (GetAsyncKeyState(0x44/*D*/) || GetAsyncKeyState(VK_RIGHT))
 			game->MovePlayerRight();
 		game->de->Draw(); //re-draw the scene
-		wait(0.2);
+		wait(0.0333333333333333); 
 	}
 	FreeConsole();
 	return 0;
