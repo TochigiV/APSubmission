@@ -12,10 +12,9 @@ private:
 	std::vector<char> wallChars;
 public:
 	DrawEngine *de;
-	Game();
+	Game(char letter, int x, int y);
 	int GetPlayerX() { return playerX; }
 	int GetPlayerY() { return playerY; }
-	void SpawnPlayer(char letter, int x, int y);
 	void AddWallCharacters(std::vector<char> wallChar);
 	void MovePlayerUp();
 	void MovePlayerDown();

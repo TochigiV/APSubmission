@@ -1,14 +1,8 @@
 #include "Game.h"
 
-//+ = wall
-
-Game::Game()
+Game::Game(char letter, int x, int y)
 {
 	de = new DrawEngine();
-}
-
-void Game::SpawnPlayer(char letter, int x, int y)
-{
 	if (de->GetLetter(x, y) != '+')
 	{
 		playerX = x;
@@ -17,7 +11,7 @@ void Game::SpawnPlayer(char letter, int x, int y)
 		playerChar = letter;
 		de->DrawSinglePixel(playerChar, playerX, playerY);
 	}
-	else SpawnPlayer(letter, (x + 1), (y + 1)); //this will recurse until it gets to a point that isn't a wall
+	else Game(letter, (x + 1), (y + 1));
 }
 
 void Game::AddWallCharacters(std::vector<char> wallChar)
