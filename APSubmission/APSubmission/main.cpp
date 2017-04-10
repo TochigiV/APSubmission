@@ -13,6 +13,12 @@
 
 Game *game;
 
+/*TODO LIST:
+	[*] Random map generation
+	[*] Enemy AI
+	[*] Scoring
+*/
+
 int main()
 {
 	char buf[BUFF_SIZE];
