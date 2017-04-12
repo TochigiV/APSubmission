@@ -9,8 +9,8 @@
 class DrawEngine
 {
 private:
-	int columns = 120;
-	int rows = 30;
+	int columns = 0;
+	int rows = 0;
 	char Map[255][255]; //Map[y][x]
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 public:
