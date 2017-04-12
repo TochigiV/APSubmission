@@ -21,7 +21,7 @@ public:
 	void DrawRect(char letter, int x, int y, int l, int thickness);
 	void DrawBox(char letter, int x, int y, int l, int w, int thickness);
 	void DrawTextA(const char* text, int x, int y);
-	char GetLetter(int x, int y);
+	char GetChar(int x, int y);
 	void Draw();
 	int GetColumns() { return columns; }
 	int GetRows() { return rows; }

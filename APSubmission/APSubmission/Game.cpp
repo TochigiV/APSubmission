@@ -4,11 +4,11 @@
 Game::Game(char letter, int x, int y)
 {
 	de = new DrawEngine();
-	if (de->GetLetter(x, y) != '+')
+	if (de->GetChar(x, y) != '+')
 	{
 		playerX = x;
 		playerY = y;
-		prevChar = de->GetLetter(x, y);
+		prevChar = de->GetChar(x, y);
 		playerChar = letter;
 		de->DrawSinglePixel(playerChar, playerX, playerY);
 	}
@@ -27,11 +27,11 @@ void Game::SetWallCharacter(char wallChar)
 
 void Game::MovePlayerUp()
 {
-	if (playerY != 0 && de->GetLetter(playerX, (playerY - 1)) != wallChars)
+	if (playerY != 0 && de->GetChar(playerX, (playerY - 1)) != wallChars)
 	{
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerY--;
-		prevChar = de->GetLetter(playerX, playerY);
+		prevChar = de->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
 		de->DrawSinglePixel(playerChar, playerX, playerY);
 	}
@@ -39,11 +39,11 @@ void Game::MovePlayerUp()
 
 void Game::MovePlayerDown()
 {
-	if (playerY != (de->GetRows() - 1) && de->GetLetter(playerX, (playerY + 1)) != wallChars)
+	if (playerY != (de->GetRows() - 1) && de->GetChar(playerX, (playerY + 1)) != wallChars)
 	{
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerY++;
-		prevChar = de->GetLetter(playerX, playerY);
+		prevChar = de->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
 		de->DrawSinglePixel(playerChar, playerX, playerY);
 	}
@@ -51,11 +51,11 @@ void Game::MovePlayerDown()
 
 void Game::MovePlayerLeft()
 {
-	if (playerX != 0 && de->GetLetter((playerX - 1), playerY) != wallChars)
+	if (playerX != 0 && de->GetChar((playerX - 1), playerY) != wallChars)
 	{
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerX--;
-		prevChar = de->GetLetter(playerX, playerY);
+		prevChar = de->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
 		de->DrawSinglePixel(playerChar, playerX, playerY);
 	}
@@ -63,11 +63,11 @@ void Game::MovePlayerLeft()
 
 void Game::MovePlayerRight()
 {
-	if (playerX != (de->GetColumns() - 1) && de->GetLetter((playerX + 1), playerY) != wallChars)
+	if (playerX != (de->GetColumns() - 1) && de->GetChar((playerX + 1), playerY) != wallChars)
 	{
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerX++;
-		prevChar = de->GetLetter(playerX, playerY);
+		prevChar = de->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
 		de->DrawSinglePixel(playerChar, playerX, playerY);
 	}

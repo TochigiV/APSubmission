@@ -38,7 +38,7 @@ void DrawEngine::DrawTextA(const char* text, int x, int y)
 	}
 }
 
-char DrawEngine::GetLetter(int x, int y)
+char DrawEngine::GetChar(int x, int y)
 {
 	return Map[y][x];
 }

@@ -43,7 +43,7 @@ int main()
 	{
 		int x = (rand() % 119);
 		int y = (rand() % 29);
-		if (game->de->GetLetter(x, y) != '+' || game->de->GetLetter(x, y) != '@' || game->de->GetLetter(x, y) != '&' || game->de->GetLetter(x, y) != '#')
+		if (game->de->GetChar(x, y) != '+' || game->de->GetChar(x, y) != '@' || game->de->GetChar(x, y) != '&' || game->de->GetChar(x, y) != '#')
 			game->de->DrawSinglePixel('#', x, y);
 		else totalgold--;
 	}
