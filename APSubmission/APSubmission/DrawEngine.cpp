@@ -28,6 +28,16 @@ void DrawEngine::DrawBox(char letter, int x, int y, int w, int l, int thickness)
 	DrawRect(letter, x, (y + l) - 1, l, thickness);
 }
 
+void DrawEngine::DrawTextA(const char* text, int x, int y)
+{
+	std::string t(text);
+	std::vector<char> chars(t.begin(), t.end());
+	for (int i = 0; i < chars.size(); i++)
+	{
+		Map[y][x + i] = chars[i];
+	}
+}
+
 char DrawEngine::GetLetter(int x, int y)
 {
 	return Map[y][x];

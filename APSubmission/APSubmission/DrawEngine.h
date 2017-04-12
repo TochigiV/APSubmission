@@ -18,6 +18,7 @@ public:
 	void DrawSinglePixel(char letter, int x, int y);
 	void DrawRect(char letter, int x, int y, int l, int thickness);
 	void DrawBox(char letter, int x, int y, int l, int w, int thickness);
+	void DrawTextA(const char* text, int x, int y);
 	char GetLetter(int x, int y);
 	void Draw();
 };

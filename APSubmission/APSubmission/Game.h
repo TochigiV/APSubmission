@@ -12,7 +12,9 @@ private:
 	char wallChars;
 public:
 	DrawEngine *de;
+	int score = 0;
 	Game(char letter, int x, int y);
+	~Game();
 	int GetPlayerX() { return playerX; }
 	int GetPlayerY() { return playerY; }
 	void SetWallCharacter(char wallChar);

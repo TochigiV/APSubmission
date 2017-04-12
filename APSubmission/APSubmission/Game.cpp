@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <time.h>
 
 Game::Game(char letter, int x, int y)
 {
@@ -14,6 +15,11 @@ Game::Game(char letter, int x, int y)
 	else Game(letter, (x + 1), (y + 1));
 }
 
+Game::~Game()
+{
+	delete de;
+}
+
 void Game::SetWallCharacter(char wallChar)
 {
 	wallChars = wallChar;
@@ -26,6 +32,7 @@ void Game::MovePlayerUp()
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerY--;
 		prevChar = de->GetLetter(playerX, playerY);
+		if (prevChar == '#') { score++; prevChar = ' '; }
 		de->DrawSinglePixel(playerChar, playerX, playerY);
 	}
 }
@@ -37,6 +44,7 @@ void Game::MovePlayerDown()
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerY++;
 		prevChar = de->GetLetter(playerX, playerY);
+		if (prevChar == '#') { score++; prevChar = ' '; }
 		de->DrawSinglePixel(playerChar, playerX, playerY);
 	}
 }
@@ -48,6 +56,7 @@ void Game::MovePlayerLeft()
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerX--;
 		prevChar = de->GetLetter(playerX, playerY);
+		if (prevChar == '#') { score++; prevChar = ' '; }
 		de->DrawSinglePixel(playerChar, playerX, playerY);
 	}
 }
@@ -59,6 +68,7 @@ void Game::MovePlayerRight()
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerX++;
 		prevChar = de->GetLetter(playerX, playerY);
+		if (prevChar == '#') { score++; prevChar = ' '; }
 		de->DrawSinglePixel(playerChar, playerX, playerY);
 	}
 }
