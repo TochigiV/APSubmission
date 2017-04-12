@@ -39,7 +39,7 @@ int main()
 
 	int totalgold;
 	srand(time(nullptr));
-	for (totalgold = 0; totalgold < (rand() % 101); totalgold++) //run a random number of times between 0 and 99
+	for (totalgold = 0; totalgold < (rand() % 101); totalgold++) //run a random number of times between 0 and 100
 	{
 		int x = (rand() % 119);
 		int y = (rand() % 29);
@@ -73,5 +73,6 @@ int main()
 		game->de->Draw(); //re-draw the scene
 		wait(0.1); 
 	}
+	delete game;
 	return 0;
 }

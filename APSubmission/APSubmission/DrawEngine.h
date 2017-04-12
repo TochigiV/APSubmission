@@ -11,9 +11,11 @@ class DrawEngine
 private:
 	int columns = 120;
 	int rows = 30;
-	char Map[30][120]; //Map[y][x]
+	char Map[255][255]; //Map[y][x]
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
 public:
 	DrawEngine();
+	~DrawEngine();
 	void FillScreen(char letter);
 	void DrawSinglePixel(char letter, int x, int y);
 	void DrawRect(char letter, int x, int y, int l, int thickness);
@@ -21,4 +23,6 @@ public:
 	void DrawTextA(const char* text, int x, int y);
 	char GetLetter(int x, int y);
 	void Draw();
+	int GetColumns() { return columns; }
+	int GetRows() { return rows; }
 };
