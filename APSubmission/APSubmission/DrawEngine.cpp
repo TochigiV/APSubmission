@@ -56,9 +56,9 @@ DrawEngine::DrawEngine()
 	columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 	rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 
-	NewSBSize = {
-		csbi.srWindow.Right - csbi.srWindow.Left + 1,
-		csbi.srWindow.Bottom - csbi.srWindow.Top + 1
+	COORD NewSBSize = {
+		columns,
+		rows
 	};
 	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), NewSBSize);
 	FillScreen(' ');
