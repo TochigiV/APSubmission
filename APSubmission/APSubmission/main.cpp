@@ -67,7 +67,7 @@ int main()
 		else if (GetAsyncKeyState(0x44/*D*/) || GetAsyncKeyState(VK_RIGHT))
 			game->MovePlayerRight();
 
-		if (game->score > 9999) game->score = 9999; else if (game->score >= totalgold) break;
+		if (game->score > 9999) game->score = 9999;
 		std::string scstr = "Gold: " + std::to_string(game->score);
 		game->de->DrawTextA(scstr.c_str(), 0, 0);
 
