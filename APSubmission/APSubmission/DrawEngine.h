@@ -13,6 +13,7 @@ private:
 	int rows = 0;
 	char Map[255][255]; //Map[y][x]
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	COORD NewSBSize;
 public:
 	DrawEngine();
 	~DrawEngine();

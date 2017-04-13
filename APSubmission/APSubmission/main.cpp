@@ -41,9 +41,9 @@ int main()
 	srand(time(nullptr));
 	for (totalgold = 0; totalgold < (rand() % 101); totalgold++) //run a random number of times between 0 and 100
 	{
-		int x = (rand() % 119);
-		int y = (rand() % 29);
-		if (game->de->GetChar(x, y) != '+' || game->de->GetChar(x, y) != '@' || game->de->GetChar(x, y) != '&' || game->de->GetChar(x, y) != '#')
+		int x = (rand() % game->de->GetColumns() - 1);
+		int y = (rand() % game->de->GetRows() - 1);
+		if (game->de->GetChar(x, y) != '+' || game->de->GetChar(x, y) != '@' || game->de->GetChar(x, y) != '&' || game->de->GetChar(x, y) != '#' || x != (11 || 10 || 9 || 8 || 7 || 6 || 5 || 4 || 3 || 2 || 1 || 0) || y != (0 || 1))
 			game->de->DrawSinglePixel('#', x, y);
 		else totalgold--;
 	}
@@ -51,6 +51,7 @@ int main()
 	game->de->DrawSinglePixel('@', game->GetPlayerX(), game->GetPlayerY());
 	game->de->DrawBox('+', 5, 5, 20, 20, 1);
 	game->de->DrawRect(' ', 24, 10, 1, 10);
+
 	game->de->DrawRect('+', 0, 1, 11, 1);
 	game->de->DrawRect('+', 10, 0, 1, 1);
 

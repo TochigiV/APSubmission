@@ -39,7 +39,7 @@ void Game::MovePlayerUp()
 
 void Game::MovePlayerDown()
 {
-	if (playerY != (de->GetRows() - 1) && de->GetChar(playerX, (playerY + 1)) != wallChars)
+	if (playerY != (de->GetRows() - 2) && de->GetChar(playerX, (playerY + 1)) != wallChars)
 	{
 		de->DrawSinglePixel(prevChar, playerX, playerY);
 		playerY++;
