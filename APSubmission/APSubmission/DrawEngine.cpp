@@ -45,7 +45,7 @@ char DrawEngine::GetChar(int x, int y)
 
 void DrawEngine::cls()
 {
-	COORD topLeft = { 0,0 };
+	COORD topLeft = { 0, 0 };
 	std::cout.flush();
 	DWORD length = csbi.dwSize.X * csbi.dwSize.Y;
 	DWORD written;
