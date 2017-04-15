@@ -9,7 +9,7 @@
 #include "Game.h"
 
 #define wait(x) Sleep(x * 1000)
-#define BUFF_SIZE 50
+#define BUFF_SIZE 512
 
 Game *game;
 
@@ -17,6 +17,22 @@ Game *game;
 	[*] Random map generation
 	[*] Enemy AI
 */
+
+int totalgold;
+
+void generateGold()
+{
+	srand(time(nullptr));
+	int ammount = rand() % 101;
+	for (totalgold = 0; totalgold < ammount; totalgold++)
+	{
+		int x = rand() % game->de->GetColumns();
+		int y = rand() % game->de->GetRows();
+		if (game->de->GetChar(x, y) != '+' || game->de->GetChar(x, y) != '@' || game->de->GetChar(x, y) != '&' || game->de->GetChar(x, y) != '#' || x != (11 || 10 || 9 || 8 || 7 || 6 || 5 || 4 || 3 || 2 || 1 || 0) || y != (0 || 1))
+			game->de->DrawSinglePixel('#', x, y);
+		else totalgold--;
+	}
+}
 
 int main()
 {
@@ -37,16 +53,7 @@ int main()
 	while (true) if (GetAsyncKeyState(VK_RETURN)) break; else if (GetAsyncKeyState(VK_ESCAPE)) exit(0);
 	game->de->FillScreen(' ');
 
-	int totalgold;
-	srand(time(nullptr));
-	for (totalgold = 0; totalgold < (rand() % 101); totalgold++) //run a random number of times between 0 and 100
-	{
-		int x = (rand() % game->de->GetColumns() - 1);
-		int y = (rand() % game->de->GetRows() - 1);
-		if (game->de->GetChar(x, y) != '+' || game->de->GetChar(x, y) != '@' || game->de->GetChar(x, y) != '&' || game->de->GetChar(x, y) != '#' || x != (11 || 10 || 9 || 8 || 7 || 6 || 5 || 4 || 3 || 2 || 1 || 0) || y != (0 || 1))
-			game->de->DrawSinglePixel('#', x, y);
-		else totalgold--;
-	}
+	generateGold();
 
 	game->de->DrawSinglePixel('@', game->GetPlayerX(), game->GetPlayerY());
 	game->de->DrawBox('+', 5, 5, 20, 20, 1);
@@ -68,9 +75,18 @@ int main()
 			game->MovePlayerRight();
 
 		if (game->score > 9999) game->score = 9999;
+		if (game->score == totalgold)
+		{
+			if (MessageBox(NULL, L"You got all of the gold! Play again?", L"Congrats!", MB_YESNO) == IDYES)
+			{
+				game->score = 0;
+				totalgold = 0;
+				generateGold();
+			}
+			else break;
+		}
 		std::string scstr = "Gold: " + std::to_string(game->score);
 		game->de->DrawTextA(scstr.c_str(), 0, 0);
-
 		game->de->Draw(); //re-draw the scene
 		wait(0.1); 
 	}
