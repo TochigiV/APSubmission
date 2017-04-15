@@ -46,9 +46,9 @@ char DrawEngine::GetChar(int x, int y)
 void DrawEngine::cls()
 {
 	COORD topLeft = { 0, 0 };
-	std::cout.flush();
 	DWORD length = csbi.dwSize.X * csbi.dwSize.Y;
 	DWORD written;
+	std::cout.flush();
 	FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), L' ', length, topLeft, &written);
 	FillConsoleOutputAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes, length, topLeft, &written);
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), topLeft);
