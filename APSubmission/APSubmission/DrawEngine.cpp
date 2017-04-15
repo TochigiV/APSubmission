@@ -43,11 +43,23 @@ char DrawEngine::GetChar(int x, int y)
 	return Map[y][x];
 }
 
+void DrawEngine::cls()
+{
+	COORD topLeft = { 0,0 };
+	std::cout.flush();
+	DWORD length = csbi.dwSize.X * csbi.dwSize.Y;
+	DWORD written;
+	FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), L' ', length, topLeft, &written);
+	FillConsoleOutputAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes, length, topLeft, &written);
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), topLeft);
+}
+
 void DrawEngine::Draw()
 {
+	cls();
 	for (int y = 0; y < rows; y++)
 		for (int x = 0; x < columns; x++)
-			putchar(Map[y][x]);
+			std::cout << Map[y][x];
 }
 
 DrawEngine::DrawEngine()
