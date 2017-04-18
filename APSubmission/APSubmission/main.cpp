@@ -52,15 +52,15 @@ int main()
 	wait(0.1);
 	while (true) if (GetAsyncKeyState(VK_RETURN)) break; else if (GetAsyncKeyState(VK_ESCAPE)) exit(0);
 	game->de->FillScreen(' ');
-
-	generateGold();
-
+	
 	game->de->DrawSinglePixel('@', game->GetPlayerX(), game->GetPlayerY());
 	game->de->DrawBox('+', 5, 5, 20, 20, 1);
 	game->de->DrawRect(' ', 24, 10, 1, 10);
 
 	game->de->DrawRect('+', 0, 1, 11, 1);
 	game->de->DrawRect('+', 10, 0, 1, 1);
+	
+	generateGold();
 
 	while (true) {
 		if (GetAsyncKeyState(VK_ESCAPE))
