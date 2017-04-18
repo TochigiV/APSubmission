@@ -26,9 +26,11 @@ void generateGold()
 	int ammount = rand() % 101;
 	for (totalgold = 0; totalgold < ammount; totalgold++)
 	{
-		int x = rand() % game->de->GetColumns();
-		int y = rand() % game->de->GetRows();
-		if (game->de->GetChar(x, y) != '+' || game->de->GetChar(x, y) != '@' || game->de->GetChar(x, y) != '&' || game->de->GetChar(x, y) != '#' || x != (11 || 10 || 9 || 8 || 7 || 6 || 5 || 4 || 3 || 2 || 1 || 0) || y != (0 || 1))
+		int x = rand() % (game->de->GetColumns() - 2);
+		int y = rand() % (game->de->GetRows() - 2);
+		x += 2; y += 2;
+		char a = game->de->GetChar(x, y);
+		if (a != '+' && a != '@' && a != '&')
 			game->de->DrawSinglePixel('#', x, y);
 		else totalgold--;
 	}
