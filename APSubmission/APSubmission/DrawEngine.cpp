@@ -32,9 +32,7 @@ void DrawEngine::PutText(std::string text, int x, int y)
 {
 	std::vector<char> chars(text.begin(), text.end());
 	for (int i = 0; i < chars.size(); i++)
-	{
 		Map[y][x + i] = chars[i];
-	}
 }
 
 char DrawEngine::GetChar(int x, int y)
