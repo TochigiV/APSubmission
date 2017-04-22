@@ -8,7 +8,7 @@
 
 #include "Game.h"
 
-#define wait(x) Sleep(x * 1000)
+#define wait(x) Sleep((DWORD)(x * 1000))
 #define BUFF_SIZE 512
 
 Game *game;
@@ -22,7 +22,7 @@ int totalgold;
 
 void generateGold()
 {
-	srand(time(nullptr));
+	srand((unsigned int)time(nullptr));
 	int ammount = rand() % 101;
 	for (totalgold = 0; totalgold < ammount; totalgold++)
 	{
@@ -44,19 +44,19 @@ int main()
 	game->SetWallCharacter('+'); //sets the character that will act as a wall
 
 	game->de->FillScreen(' ');
-	game->de->DrawTextA("+ = wall", 20, 11);
-	game->de->DrawTextA("@ = player", 20, 12);
-	game->de->DrawTextA("& = enemy", 20, 13);
-	game->de->DrawTextA("# = gold coin", 20, 14);
-	game->de->DrawTextA("W, A, S, D, Up Arrow, Down Arrow, Left Arrow, Right Arrow = movement", 20, 15);
-	game->de->DrawTextA("Press Enter to continue (or Esc to exit)", 20, 16);
+	game->de->PutText("+ = wall", 20, 11);
+	game->de->PutText("@ = player", 20, 12);
+	game->de->PutText("& = enemy", 20, 13);
+	game->de->PutText("# = gold coin", 20, 14);
+	game->de->PutText("W, A, S, D, Up Arrow, Down Arrow, Left Arrow, Right Arrow = movement", 20, 15);
+	game->de->PutText("Press Enter to continue (or Esc to exit)", 20, 16);
 	game->de->Draw();
 	wait(0.1);
 	while (true) if (GetAsyncKeyState(VK_RETURN)) break; else if (GetAsyncKeyState(VK_ESCAPE)) exit(0);
 	game->de->FillScreen(' ');
 	
 	game->de->DrawSinglePixel('@', game->GetPlayerX(), game->GetPlayerY());
-	game->de->DrawBox('+', 5, 5, 20, 20, 1);
+	game->de->DrawBox('+', 5, 5, 20, 20);
 	game->de->DrawRect(' ', 24, 10, 1, 10);
 
 	game->de->DrawRect('+', 0, 1, 11, 1);
@@ -88,9 +88,9 @@ int main()
 			else break;
 		}
 		std::string scstr = "Gold: " + std::to_string(game->score);
-		game->de->DrawTextA(scstr.c_str(), 0, 0);
+		game->de->PutText(scstr.c_str(), 0, 0);
 		game->de->Draw(); //re-draw the scene
-		wait(0.1); 
+		wait(0.05); //20 fps
 	}
 	delete game;
 	return 0;

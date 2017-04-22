@@ -20,18 +20,17 @@ void DrawEngine::DrawRect(char letter, int x, int y, int l, int w)
 		Map[b][x] = letter;
 }
 
-void DrawEngine::DrawBox(char letter, int x, int y, int w, int l, int thickness)
+void DrawEngine::DrawBox(char letter, int x, int y, int l, int w)
 {
-	DrawRect(letter, x, y, w, thickness);
-	DrawRect(letter, x, y, thickness, l);
-	DrawRect(letter, (x + w) - 1, y, thickness, w);
-	DrawRect(letter, x, (y + l) - 1, l, thickness);
+	DrawRect(letter, x, y, l, 1);
+	DrawRect(letter, x, y, 1, l);
+	DrawRect(letter, (x + w) - 1, y, 1, l);
+	DrawRect(letter, x, (y + l) - 1, l, 1);
 }
 
-void DrawEngine::DrawTextA(const char* text, int x, int y)
+void DrawEngine::PutText(std::string text, int x, int y)
 {
-	std::string t(text);
-	std::vector<char> chars(t.begin(), t.end());
+	std::vector<char> chars(text.begin(), text.end());
 	for (int i = 0; i < chars.size(); i++)
 	{
 		Map[y][x + i] = chars[i];
@@ -68,10 +67,7 @@ DrawEngine::DrawEngine()
 	columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 	rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 
-	COORD NewSBSize = {
-		columns,
-		rows
-	};
+	COORD NewSBSize = { columns, rows };
 	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), NewSBSize);
 	FillScreen(' ');
 }
