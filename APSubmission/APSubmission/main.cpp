@@ -18,7 +18,7 @@ int totalgold;
 void generateGold()
 {
 	srand((unsigned int)time(nullptr));
-	int ammount = rand() % 101;
+	int ammount = rand() % 51;
 	for (totalgold = 0; totalgold < ammount; totalgold++)
 	{
 		int x = rand() % (game->de->GetColumns() - 2);
