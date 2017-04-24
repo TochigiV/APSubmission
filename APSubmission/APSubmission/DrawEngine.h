@@ -16,7 +16,6 @@ private:
 	void cls();
 public:
 	DrawEngine();
-	~DrawEngine();
 	void FillScreen(char letter);
 	void DrawSinglePixel(char letter, int x, int y);
 	void DrawRect(char letter, int x, int y, int l, int thickness);

@@ -69,8 +69,3 @@ DrawEngine::DrawEngine()
 	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), NewSBSize);
 	FillScreen(' ');
 }
-
-DrawEngine::~DrawEngine()
-{
-	//nothing
-}
