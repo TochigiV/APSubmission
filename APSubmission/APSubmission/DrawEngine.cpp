@@ -74,5 +74,3 @@ DrawEngine::~DrawEngine()
 {
 	//nothing
 }
-
-//
