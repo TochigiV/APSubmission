@@ -13,11 +13,6 @@
 
 Game *game;
 
-/*TODO LIST:
-	[*] Random map generation
-	[*] Enemy AI
-*/
-
 int totalgold;
 
 void generateGold()
@@ -46,10 +41,9 @@ int main()
 	game->de->FillScreen(' ');
 	game->de->PutText("+ = wall", 20, 11);
 	game->de->PutText("@ = player", 20, 12);
-	game->de->PutText("& = enemy", 20, 13);
-	game->de->PutText("# = gold coin", 20, 14);
-	game->de->PutText("W, A, S, D, Up Arrow, Down Arrow, Left Arrow, Right Arrow = movement", 20, 15);
-	game->de->PutText("Press Enter to continue (or Esc to exit)", 20, 16);
+	game->de->PutText("# = gold coin", 20, 13);
+	game->de->PutText("W, A, S, D, Up Arrow, Down Arrow, Left Arrow, Right Arrow = movement", 20, 14);
+	game->de->PutText("Press Enter to continue (or Esc to exit)", 20, 15);
 	game->de->Draw();
 	wait(0.1);
 	while (true) if (GetAsyncKeyState(VK_RETURN)) break; else if (GetAsyncKeyState(VK_ESCAPE)) exit(0);
