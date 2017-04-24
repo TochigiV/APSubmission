@@ -84,7 +84,7 @@ int main()
 		std::string scstr = "Gold: " + std::to_string(game->score);
 		game->de->PutText(scstr.c_str(), 0, 0);
 		game->de->Draw(); //re-draw the scene
-		wait(0.05); //20 fps
+		wait(0.1); //10 fps
 	}
 	delete game;
 	return 0;
