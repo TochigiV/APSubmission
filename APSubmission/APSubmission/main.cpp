@@ -50,8 +50,6 @@ int main()
 	game->de->FillScreen(' ');
 	
 	game->de->DrawSinglePixel('@', game->GetPlayerX(), game->GetPlayerY());
-	game->de->DrawBox('+', 5, 5, 20, 20);
-	game->de->DrawRect(' ', 24, 10, 1, 10);
 
 	game->de->DrawRect('+', 0, 1, 11, 1);
 	game->de->DrawRect('+', 10, 0, 1, 1);
