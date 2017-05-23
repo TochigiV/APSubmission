@@ -1,20 +1,17 @@
 #pragma once
 
-#include <iostream>
-#include <stdio.h>
-#include <string>
-#include <vector>
-#include <Windows.h>
+#include "stdafx.h"
 
 class DrawEngine
 {
 private:
-	int columns = 0; //x
-	int rows = 0; //y
 	char Map[UCHAR_MAX][UCHAR_MAX]; //Map[y][x]
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	HANDLE stdHandle;
 	void cls();
 public:
+	int columns = 0; //x
+	int rows = 0; //y
 	DrawEngine();
 	void FillScreen(char letter);
 	void DrawSinglePixel(char letter, int x, int y);

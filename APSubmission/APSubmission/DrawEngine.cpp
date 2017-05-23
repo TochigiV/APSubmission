@@ -31,7 +31,7 @@ void DrawEngine::DrawBox(char letter, int x, int y, int l, int w)
 void DrawEngine::PutText(std::string text, int x, int y)
 {
 	std::vector<char> chars(text.begin(), text.end());
-	for (int i = 0; i < chars.size(); i++)
+	for (unsigned int i = 0; i < chars.size(); i++)
 		Map[y][x + i] = chars[i];
 }
 
@@ -46,9 +46,9 @@ void DrawEngine::cls()
 	DWORD length = csbi.dwSize.X * csbi.dwSize.Y;
 	DWORD written;
 	std::cout.flush();
-	FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), L' ', length, topLeft, &written);
-	FillConsoleOutputAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes, length, topLeft, &written);
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), topLeft);
+	FillConsoleOutputCharacter(stdHandle, L' ', length, topLeft, &written);
+	FillConsoleOutputAttribute(stdHandle, csbi.wAttributes, length, topLeft, &written);
+	SetConsoleCursorPosition(stdHandle, topLeft);
 }
 
 void DrawEngine::Draw()
@@ -61,11 +61,12 @@ void DrawEngine::Draw()
 
 DrawEngine::DrawEngine()
 {
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	stdHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	GetConsoleScreenBufferInfo(stdHandle, &csbi);
 	columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 	rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 
-	COORD NewSBSize = { columns, rows };
-	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), NewSBSize);
+	COORD NewSBSize = { (SHORT)columns, (SHORT)rows };
+	SetConsoleScreenBufferSize(stdHandle, NewSBSize);
 	FillScreen(' ');
 }
