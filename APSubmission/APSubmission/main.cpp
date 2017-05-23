@@ -138,7 +138,7 @@ int main()
 					json::JSON chunk1 = json::JSON::Load(chunk1_json);
 					for (int y = 0; y < 5; y++)
 					{
-						for (int x = 0; x < 20; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							game->de->DrawSinglePixel(static_cast<char>(chunk1[y][x].ToInt()), x, y);
 						}
@@ -152,7 +152,7 @@ int main()
 					json::JSON chunk2 = json::JSON::Load(chunk2_json);
 					for (int y = 5; y < 10; y++)
 					{
-						for (int x = 20; x < 40; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							game->de->DrawSinglePixel(static_cast<char>(chunk2[y][x].ToInt()), x, y);
 						}
@@ -166,7 +166,7 @@ int main()
 					json::JSON chunk3 = json::JSON::Load(chunk3_json);
 					for (int y = 10; y < 15; y++)
 					{
-						for (int x = 40; x < 60; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							game->de->DrawSinglePixel(static_cast<char>(chunk3[y][x].ToInt()), x, y);
 						}
@@ -180,7 +180,7 @@ int main()
 					json::JSON chunk4 = json::JSON::Load(chunk4_json);
 					for (int y = 15; y < 20; y++)
 					{
-						for (int x = 60; x < 80; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							game->de->DrawSinglePixel(static_cast<char>(chunk4[y][x].ToInt()), x, y);
 						}
@@ -194,7 +194,7 @@ int main()
 					json::JSON chunk5 = json::JSON::Load(chunk5_json);
 					for (int y = 20; y < 25; y++)
 					{
-						for (int x = 80; x < 100; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							game->de->DrawSinglePixel(static_cast<char>(chunk5[y][x].ToInt()), x, y);
 						}
@@ -208,7 +208,7 @@ int main()
 					json::JSON chunk6 = json::JSON::Load(chunk6_json);
 					for (int y = 25; y < 30; y++)
 					{
-						for (int x = 100; x < 120; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							game->de->DrawSinglePixel(static_cast<char>(chunk6[y][x].ToInt()), x, y);
 						}

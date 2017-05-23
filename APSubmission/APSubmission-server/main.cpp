@@ -77,7 +77,7 @@ int main()
 					for (int y = 0; y < 5; y++)
 					{
 						chunk1[y] = json::Object();
-						for (int x = 0; x < 20; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							cmap[y][x] = '*';
 							chunk1[y][x] = cmap[y][x];
@@ -92,7 +92,7 @@ int main()
 					for (int y = 5; y < 10; y++)
 					{
 						chunk2[y] = json::Object();
-						for (int x = 20; x < 40; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							cmap[y][x] = '*';
 							chunk2[y][x] = cmap[y][x];
@@ -107,7 +107,7 @@ int main()
 					for (int y = 10; y < 15; y++)
 					{
 						chunk3[y] = json::Object();
-						for (int x = 40; x < 60; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							cmap[y][x] = '*';
 							chunk3[y][x] = cmap[y][x];
@@ -122,7 +122,7 @@ int main()
 					for (int y = 15; y < 20; y++)
 					{
 						chunk4[y] = json::Object();
-						for (int x = 60; x < 80; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							cmap[y][x] = '*';
 							chunk4[y][x] = cmap[y][x];
@@ -137,7 +137,7 @@ int main()
 					for (int y = 20; y < 25; y++)
 					{
 						chunk5[y] = json::Object();
-						for (int x = 80; x < 100; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							cmap[y][x] = '*';
 							chunk5[y][x] = cmap[y][x];
@@ -152,7 +152,7 @@ int main()
 					for (int y = 25; y < 30; y++)
 					{
 						chunk6[y] = json::Object();
-						for (int x = 100; x < 120; x++)
+						for (int x = 0; x < 120; x++)
 						{
 							cmap[y][x] = '*';
 							chunk6[y][x] = cmap[y][x];
