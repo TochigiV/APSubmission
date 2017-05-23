@@ -16,8 +16,6 @@
 #include "..\RakNet\MessageIdentifiers.h"
 #include "..\RakNet\BitStream.h"
 #include "..\RakNet\RakNetTypes.h"
-#include "..\RakNet\NatPunchthroughServer.h"
-#include "..\RakNet\NatTypeDetectionServer.h"
 
 #include "json.hpp"
 
