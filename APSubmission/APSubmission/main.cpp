@@ -15,6 +15,7 @@ Game *game;
 int totalgold;
 
 void generateGold()
+
 {
 	srand((unsigned int)time(nullptr));
 	int ammount = rand() % 51;
@@ -32,11 +33,11 @@ void generateGold()
 
 bool multiplayer = false;
 
-DWORD GetRegKey(HKEY hKey, std::string strValueName)
+DWORD GetRegKey(HKEY hKey, const char* strValueName)
 {
-	DWORD dwBufferSize = sizeof(DWORD);
 	DWORD nResult;
-	DWORD nError = RegQueryValueExA(hKey, strValueName.c_str(), NULL, NULL, reinterpret_cast<LPBYTE>(&nResult), &dwBufferSize);
+	DWORD size = sizeof(DWORD);
+	DWORD nError = RegQueryValueExA(hKey, strValueName, NULL, NULL, (BYTE*)&nResult, &size);
 	if (!nError) return nResult;
 	return nError;
 }
