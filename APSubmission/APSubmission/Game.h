@@ -18,6 +18,7 @@ public:
 	int GetPlayerX() { return playerX; }
 	int GetPlayerY() { return playerY; }
 	void SetWallCharacter(char wallChar);
+	void SetPCharacter(char pChar);
 	void MovePlayerUp();
 	void MovePlayerDown();
 	void MovePlayerLeft();

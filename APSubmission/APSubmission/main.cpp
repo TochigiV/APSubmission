@@ -32,10 +32,32 @@ void generateGold()
 
 bool multiplayer = false;
 
+DWORD GetRegKey(HKEY hKey, std::string strValueName)
+{
+	DWORD dwBufferSize = sizeof(DWORD);
+	DWORD nResult;
+	DWORD nError = RegQueryValueExA(hKey, strValueName.c_str(), NULL, NULL, reinterpret_cast<LPBYTE>(&nResult), &dwBufferSize);
+	if (!nError) return nResult;
+	return nError;
+}
+
 int main()
 {
-	setvbuf(stdout, NULL, _IOFBF, BUFF_SIZE);
 	SetConsoleTitle(L"APSubmission");
+	setvbuf(stdout, NULL, _IOFBF, 514);
+
+	HKEY hKey;
+	DWORD key = RegOpenKeyExA(HKEY_CURRENT_USER, "Console", NULL, KEY_READ, &hKey);
+	if (key == 0 && key != 2)
+	{
+		if (GetRegKey(hKey, "ForceV2") != 0)
+		{
+			std::cout << "Legacy console is not enabled! Please enable the legacy console to play this game." << std::endl;
+			system("pause");
+			return 0;
+		}
+	}
+
 	game = new Game('@', 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
 	game->SetWallCharacter('+'); //sets the character that will act as a wall
 
@@ -118,6 +140,18 @@ int main()
 		unsigned short pinput;
 		std::cin >> pinput;
 
+	select_char:
+		std::cout << "Server Character: ";
+		std::string cha;
+		std::cin >> cha;
+		if (cha.size() > 1)
+		{
+			std::cout << "Please choose a single character!" << std::endl;
+			goto select_char;
+		}
+
+		game->SetPCharacter(cha[0]);
+
 		RakNet::RakPeerInterface *peer = RakNet::RakPeerInterface::GetInstance();
 		RakNet::Packet *packet;
 
@@ -129,7 +163,6 @@ int main()
 		{
 			for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
 			{
-				Sleep(100);
 				if(packet->data[2] == '1')
 				{
 					std::string chunk1_json;
@@ -216,7 +249,20 @@ int main()
 				}
 
 				if (GetConsoleWindow() == GetForegroundWindow())
+				{
 					if (GetAsyncKeyState(VK_ESCAPE)) { breaker = true; break; }
+					else if (GetAsyncKeyState(0x57/*W*/) || GetAsyncKeyState(VK_UP))
+						game->MovePlayerUp();
+					else if (GetAsyncKeyState(0x41/*A*/) || GetAsyncKeyState(VK_LEFT))
+						game->MovePlayerLeft();
+					else if (GetAsyncKeyState(0x53/*S*/) || GetAsyncKeyState(VK_DOWN))
+						game->MovePlayerDown();
+					else if (GetAsyncKeyState(0x44/*D*/) || GetAsyncKeyState(VK_RIGHT))
+						game->MovePlayerRight();
+				}
+				std::string setplayers = "setPlayer " + std::to_string(game->GetPlayerX()) + " " + std::to_string(game->GetPlayerY()) + " " + cha;
+				peer->Send((char*)setplayers.c_str(), strlen(setplayers.c_str()) + 1, HIGH_PRIORITY, RELIABLE, 0, packet->systemAddress, false);
+
 				game->de->Draw();
 			}
 			if (breaker)break;

@@ -8,6 +8,7 @@
 #include <conio.h>
 #include <sstream> 
 #include <ostream>
+#include <iterator>
 #include <algorithm> 
 
 #include <Windows.h>
@@ -29,11 +30,53 @@
 #define pause() system("pause")
 #endif
 
-char cmap[50][50];
+std::vector<std::string> split(std::string s) {
+	std::vector<std::string> elems;
+	std::stringstream ss(s);
+	std::istream_iterator<std::string> begin(ss);
+	std::istream_iterator<std::string> end;
+	std::vector<std::string> vstrings(begin, end);
+	return vstrings;
+}
+
+CONSOLE_SCREEN_BUFFER_INFO csbi;
+HANDLE stdHandle;
+int columns, rows;
+char cmap[30][120];
+int prevx = 0, prevy = 0, cx = 0, cy = 0;
+char prevchar = ' ';
+
+void FillMap(char c)
+{
+	for (int y = 0; y < 30; y++)
+		for (int x = 0; x < 120; x++)
+			cmap[y][x] = c;
+}
+
+
+void cls()
+{
+	COORD topLeft = { 0, 0 };
+	DWORD length = csbi.dwSize.X * csbi.dwSize.Y;
+	DWORD written;
+	std::cout.flush();
+	FillConsoleOutputCharacter(stdHandle, L' ', length, topLeft, &written);
+	FillConsoleOutputAttribute(stdHandle, csbi.wAttributes, length, topLeft, &written);
+	SetConsoleCursorPosition(stdHandle, topLeft);
+}
 
 int main()
 {
+	setvbuf(stdout, NULL, _IOFBF, 512);
 	SetConsoleTitle("APSubmission-server");
+
+	stdHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	GetConsoleScreenBufferInfo(stdHandle, &csbi);
+	columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+	rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+	COORD NewSBSize = { (SHORT)columns, (SHORT)rows };
+	SetConsoleScreenBufferSize(stdHandle, NewSBSize);
+
 	WIN32_FIND_DATA fdata;
 	if (FindFirstFile("server.json", &fdata) != INVALID_HANDLE_VALUE)
 	{
@@ -64,14 +107,18 @@ int main()
 			{
 
 				std::cout << "Statring server on IP: " << ip << ", PORT: " << port << std::endl;
+				std::string contitle = "APSubmission-server IP: " + ip + " PORT: " + std::to_string(port);
+				SetConsoleTitle(contitle.c_str());
 				RakNet::RakPeerInterface *peer = RakNet::RakPeerInterface::GetInstance();
 				RakNet::Packet *packet;
 
 				peer->Startup(10, &RakNet::SocketDescriptor(port, ip.c_str()), 1);
 				peer->SetMaximumIncomingConnections(10);
+
+				FillMap('+');
+
 				while (1)
 				{
-
 					//CHUNK 1
 					json::JSON chunk1;
 					for (int y = 0; y < 5; y++)
@@ -79,7 +126,6 @@ int main()
 						chunk1[y] = json::Object();
 						for (int x = 0; x < 120; x++)
 						{
-							cmap[y][x] = '*';
 							chunk1[y][x] = cmap[y][x];
 						}
 					}
@@ -94,7 +140,6 @@ int main()
 						chunk2[y] = json::Object();
 						for (int x = 0; x < 120; x++)
 						{
-							cmap[y][x] = '*';
 							chunk2[y][x] = cmap[y][x];
 						}
 					}
@@ -109,7 +154,6 @@ int main()
 						chunk3[y] = json::Object();
 						for (int x = 0; x < 120; x++)
 						{
-							cmap[y][x] = '*';
 							chunk3[y][x] = cmap[y][x];
 						}
 					}
@@ -124,7 +168,6 @@ int main()
 						chunk4[y] = json::Object();
 						for (int x = 0; x < 120; x++)
 						{
-							cmap[y][x] = '*';
 							chunk4[y][x] = cmap[y][x];
 						}
 					}
@@ -139,7 +182,6 @@ int main()
 						chunk5[y] = json::Object();
 						for (int x = 0; x < 120; x++)
 						{
-							cmap[y][x] = '*';
 							chunk5[y][x] = cmap[y][x];
 						}
 					}
@@ -154,14 +196,12 @@ int main()
 						chunk6[y] = json::Object();
 						for (int x = 0; x < 120; x++)
 						{
-							cmap[y][x] = '*';
 							chunk6[y][x] = cmap[y][x];
 						}
 					}
 					std::string chunk6_s;
 					chunk6_s += "206";
 					chunk6_s += chunk6.dump();
-
 
 					peer->Send((char*)chunk1_s.c_str(), strlen(chunk1_s.c_str()) + 1, HIGH_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
 					peer->Send((char*)chunk2_s.c_str(), strlen(chunk2_s.c_str()) + 1, HIGH_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
@@ -170,8 +210,46 @@ int main()
 					peer->Send((char*)chunk5_s.c_str(), strlen(chunk5_s.c_str()) + 1, HIGH_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
 					peer->Send((char*)chunk6_s.c_str(), strlen(chunk6_s.c_str()) + 1, HIGH_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
 
+					for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
+					{
+						std::string packetstring;
+						for (int i = 0; i < packet->length; i++)
+							packetstring += packet->data[i];
+
+						std::vector<std::string>splitstr = split(packetstring);
+
+						if (splitstr[0] == "setPlayer")
+						{
+							if (std::stoi(splitstr[1]) != cx && std::stoi(splitstr[2]) != cy)
+							{
+								cmap[prevy][prevx] = prevchar;
+								int x = std::stoi(splitstr[1]);
+								int y = std::stoi(splitstr[2]);
+								const char* pchar = splitstr[3].c_str();
+								prevx = x;
+								prevy = y;
+								prevchar = cmap[y][x];
+
+
+								cmap[y][x] = pchar[0];
+								cx = x;
+								cy = y;
+							}
+						}
+					}
+
+					cls();
+					for (int y = 0; y < 30; y++)
+					{
+						for (int x = 0; x < 120; x++)
+						{
+							std::cout << cmap[y][x];
+						}
+					}
+
 					if (GetConsoleWindow() == GetForegroundWindow())
 						if (GetAsyncKeyState(VK_ESCAPE)) break;
+					Sleep(100);
 				}
 				peer->Shutdown(300);
 				RakNet::RakPeerInterface::DestroyInstance(peer);

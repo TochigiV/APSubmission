@@ -24,6 +24,11 @@ void Game::SetWallCharacter(char wallChar)
 	wallChars = wallChar;
 }
 
+void Game::SetPCharacter(char pChar)
+{
+	playerChar = pChar;
+}
+
 void Game::MovePlayerUp()
 {
 	if (playerY != 0 && de->GetChar(playerX, (playerY - 1)) != wallChars)
