@@ -130,7 +130,7 @@ int main()
 						}
 					}
 					std::string chunk1_s;
-					chunk1_s += "201";
+					chunk1_s += "1";
 					chunk1_s += chunk1.dump();
 
 					//CHUNK 2
@@ -144,7 +144,7 @@ int main()
 						}
 					}
 					std::string chunk2_s;
-					chunk2_s += "202";
+					chunk2_s += "2";
 					chunk2_s += chunk2.dump();
 
 					//CHUNK 3
@@ -158,7 +158,7 @@ int main()
 						}
 					}
 					std::string chunk3_s;
-					chunk3_s += "203";
+					chunk3_s += "3";
 					chunk3_s += chunk3.dump();
 
 					//CHUNK 4
@@ -172,7 +172,7 @@ int main()
 						}
 					}
 					std::string chunk4_s;
-					chunk4_s += "204";
+					chunk4_s += "4";
 					chunk4_s += chunk4.dump();
 
 					//CHUNK 5
@@ -186,7 +186,7 @@ int main()
 						}
 					}
 					std::string chunk5_s;
-					chunk5_s += "205";
+					chunk5_s += "5";
 					chunk5_s += chunk5.dump();
 
 					//CHUNK 6
@@ -200,7 +200,7 @@ int main()
 						}
 					}
 					std::string chunk6_s;
-					chunk6_s += "206";
+					chunk6_s += "6";
 					chunk6_s += chunk6.dump();
 
 					peer->Send((char*)chunk1_s.c_str(), strlen(chunk1_s.c_str()) + 1, HIGH_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
