@@ -164,10 +164,10 @@ int main()
 		{
 			for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
 			{
-				if(packet->data[2] == '1')
+				if(packet->data[0] == '1')
 				{
 					std::string chunk1_json;
-					for (unsigned int i = 3; i < packet->length; i++)
+					for (unsigned int i = 1; i < packet->length; i++)
 						chunk1_json += packet->data[i];
 					json::JSON chunk1 = json::JSON::Load(chunk1_json);
 					for (int y = 0; y < 5; y++)
@@ -178,10 +178,10 @@ int main()
 						}
 					}
 				}
-				else if (packet->data[2] == '2')
+				else if (packet->data[0] == '2')
 				{
 					std::string chunk2_json;
-					for (unsigned int i = 3; i < packet->length; i++)
+					for (unsigned int i = 1; i < packet->length; i++)
 						chunk2_json += packet->data[i];
 					json::JSON chunk2 = json::JSON::Load(chunk2_json);
 					for (int y = 5; y < 10; y++)
@@ -192,10 +192,10 @@ int main()
 						}
 					}
 				}
-				else if (packet->data[2] == '3')
+				else if (packet->data[0] == '3')
 				{
 					std::string chunk3_json;
-					for (unsigned int i = 3; i < packet->length; i++)
+					for (unsigned int i = 1; i < packet->length; i++)
 						chunk3_json += packet->data[i];
 					json::JSON chunk3 = json::JSON::Load(chunk3_json);
 					for (int y = 10; y < 15; y++)
@@ -206,10 +206,10 @@ int main()
 						}
 					}
 				}
-				else if (packet->data[2] == '4')
+				else if (packet->data[0] == '4')
 				{
 					std::string chunk4_json;
-					for (unsigned int i = 3; i < packet->length; i++)
+					for (unsigned int i = 1; i < packet->length; i++)
 						chunk4_json += packet->data[i];
 					json::JSON chunk4 = json::JSON::Load(chunk4_json);
 					for (int y = 15; y < 20; y++)
@@ -220,10 +220,10 @@ int main()
 						}
 					}
 				}
-				else if (packet->data[2] == '5')
+				else if (packet->data[0] == '5')
 				{
 					std::string chunk5_json;
-					for (unsigned int i = 3; i < packet->length; i++)
+					for (unsigned int i = 1; i < packet->length; i++)
 						chunk5_json += packet->data[i];
 					json::JSON chunk5 = json::JSON::Load(chunk5_json);
 					for (int y = 20; y < 25; y++)
@@ -234,10 +234,10 @@ int main()
 						}
 					}
 				}
-				else if (packet->data[2] == '6')
+				else if (packet->data[0] == '6')
 				{
 					std::string chunk6_json;
-					for (unsigned int i = 3; i < packet->length; i++)
+					for (unsigned int i = 1; i < packet->length; i++)
 						chunk6_json += packet->data[i];
 					json::JSON chunk6 = json::JSON::Load(chunk6_json);
 					for (int y = 25; y < 30; y++)
