@@ -42,14 +42,14 @@ std::vector<std::string> split(std::string s) {
 CONSOLE_SCREEN_BUFFER_INFO csbi;
 HANDLE stdHandle;
 int columns, rows;
-char cmap[30][120];
+char cmap[255][255];
 int prevx = 0, prevy = 0, cx = 0, cy = 0;
 char prevchar = ' ';
 
 void FillMap(char c)
 {
-	for (int y = 0; y < 30; y++)
-		for (int x = 0; x < 120; x++)
+	for (int y = 0; y < rows; y++)
+		for (int x = 0; x < columns; x++)
 			cmap[y][x] = c;
 }
 
@@ -65,8 +65,29 @@ void cls()
 	SetConsoleCursorPosition(stdHandle, topLeft);
 }
 
+DWORD GetRegKey(HKEY hKey, const char* strValueName)
+{
+	DWORD nResult;
+	DWORD size = sizeof(DWORD);
+	DWORD nError = RegQueryValueExA(hKey, strValueName, NULL, NULL, (BYTE*)&nResult, &size);
+	if (!nError) return nResult;
+	return nError;
+}
+
 int main()
 {
+	HKEY hKey;
+	DWORD key = RegOpenKeyExA(HKEY_CURRENT_USER, "Console", NULL, KEY_READ, &hKey);
+	if (key == 0 && key != 2)
+	{
+		if (GetRegKey(hKey, "ForceV2") != 0)
+		{
+			std::cout << "Legacy console is not enabled! Please enable the legacy console to play this game." << std::endl;
+			system("pause");
+			return 0;
+		}
+	}
+	
 	setvbuf(stdout, NULL, _IOFBF, 512);
 	SetConsoleTitle("APSubmission-server");
 
@@ -124,7 +145,7 @@ int main()
 					for (int y = 0; y < 5; y++)
 					{
 						chunk1[y] = json::Object();
-						for (int x = 0; x < 120; x++)
+						for (int x = 0; x < columns; x++)
 						{
 							chunk1[y][x] = cmap[y][x];
 						}
@@ -138,7 +159,7 @@ int main()
 					for (int y = 5; y < 10; y++)
 					{
 						chunk2[y] = json::Object();
-						for (int x = 0; x < 120; x++)
+						for (int x = 0; x < columns; x++)
 						{
 							chunk2[y][x] = cmap[y][x];
 						}
@@ -152,7 +173,7 @@ int main()
 					for (int y = 10; y < 15; y++)
 					{
 						chunk3[y] = json::Object();
-						for (int x = 0; x < 120; x++)
+						for (int x = 0; x < columns; x++)
 						{
 							chunk3[y][x] = cmap[y][x];
 						}
@@ -166,7 +187,7 @@ int main()
 					for (int y = 15; y < 20; y++)
 					{
 						chunk4[y] = json::Object();
-						for (int x = 0; x < 120; x++)
+						for (int x = 0; x < columns; x++)
 						{
 							chunk4[y][x] = cmap[y][x];
 						}
@@ -180,7 +201,7 @@ int main()
 					for (int y = 20; y < 25; y++)
 					{
 						chunk5[y] = json::Object();
-						for (int x = 0; x < 120; x++)
+						for (int x = 0; x < columns; x++)
 						{
 							chunk5[y][x] = cmap[y][x];
 						}
@@ -194,7 +215,7 @@ int main()
 					for (int y = 25; y < 30; y++)
 					{
 						chunk6[y] = json::Object();
-						for (int x = 0; x < 120; x++)
+						for (int x = 0; x < columns; x++)
 						{
 							chunk6[y][x] = cmap[y][x];
 						}
@@ -239,9 +260,9 @@ int main()
 					}
 
 					cls();
-					for (int y = 0; y < 30; y++)
+					for (int y = 0; y < rows; y++)
 					{
-						for (int x = 0; x < 120; x++)
+						for (int x = 0; x < columns; x++)
 						{
 							std::cout << cmap[y][x];
 						}
