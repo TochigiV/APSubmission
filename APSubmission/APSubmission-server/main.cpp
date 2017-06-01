@@ -83,7 +83,7 @@ int main()
 		if (GetRegKey(hKey, "ForceV2") != 0)
 		{
 			std::cout << "Legacy console is not enabled! Please enable the legacy console to play this game." << std::endl;
-			system("pause");
+			pause();
 			return 0;
 		}
 	}
