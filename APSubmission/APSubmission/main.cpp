@@ -100,12 +100,12 @@ int main()
 			game->de->PutText(scstr.c_str(), 0, 0);
 			game->de->Draw();
 		}
-		end:
-		delete game;
 	}
 	catch (std::exception e)
 	{
 		MessageBoxA(consoleWindow, e.what(), "Error", MB_OK | MB_ICONERROR); //since std::exception uses std::string and not std::wstring we call MessageBoxA
 	}
+	end:
+	delete game; //if it exists (which it should)
 	return 0;
 }
