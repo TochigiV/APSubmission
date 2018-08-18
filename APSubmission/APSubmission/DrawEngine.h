@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <ctime>
+#include <conio.h>
 
 #include <Windows.h>
 
