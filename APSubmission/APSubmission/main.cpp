@@ -103,7 +103,7 @@ int main()
 	}
 	catch (std::exception e)
 	{
-		MessageBoxA(consoleWindow, e.what(), "Error", MB_OK | MB_ICONERROR); //since std::exception uses std::string and not std::wstring we call MessageBoxA
+		MessageBoxA(consoleWindow, e.what(), "Error", MB_OK | MB_ICONERROR); //since std::exception uses chars and not wide chars we call MessageBoxA
 	}
 	end:
 	delete game; //if it exists (which it should)
