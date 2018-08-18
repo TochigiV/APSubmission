@@ -29,8 +29,9 @@ bool multiplayer = false;
 
 int main()
 {
+	HWND consoleWindow = GetConsoleWindow();
 	SetConsoleTitle(TEXT("APSubmission"));
-
+	SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
 	try
 	{
 		game = new Game(TEXT('@'), 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
@@ -45,7 +46,7 @@ int main()
 		game->de->Draw();
 		wait(0.1);
 		while (true) {
-			if (GetConsoleWindow() == GetForegroundWindow())
+			if (consoleWindow == GetForegroundWindow())
 			{
 				if (GetKey(VK_RETURN))
 					break;
@@ -63,7 +64,7 @@ int main()
 		generateGold();
 	
 		while (true) {
-			if (GetConsoleWindow() == GetForegroundWindow())
+			if (consoleWindow == GetForegroundWindow())
 			{
 				if (GetKey(VK_ESCAPE))
 					break;
