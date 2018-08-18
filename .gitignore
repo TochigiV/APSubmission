@@ -11,12 +11,12 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
+#[Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
+#[Rr]elease/
 [Rr]eleases/
-[Xx]64/
-[Xx]86/
+#[Xx]64/
+#[Xx]86/
 [Bb]uild/
 bld/
 [Bb]in/
@@ -68,6 +68,11 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
+*.iobj
+*.ipdb
+*.tlog
+*.idb
+*.lastbuildstate
 
 # Chutzpah Test files
 _Chutzpah*
