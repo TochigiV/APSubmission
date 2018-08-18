@@ -1,4 +1,4 @@
-#include "Game.h"
+﻿#include "Game.h"
 
 #define wait(x) Sleep((DWORD)(x * 1000))
 #define pause(x) fputs("Press any key to continue . . . ", stdout); _getch(); putc('\n', stdout);
