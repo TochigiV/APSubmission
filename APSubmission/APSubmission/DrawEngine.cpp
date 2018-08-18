@@ -6,20 +6,20 @@ void DrawEngine::FillScreen(wchar_t letter)
 {
 	for (int y = 0; y < rows; y++)
 		for (int x = 0; x < columns; x++)
-			Map[y][x] = letter;
+			Map[x][y] = letter;
 }
 
 void DrawEngine::DrawSinglePixel(wchar_t letter, int x, int y)
 {
-	Map[y][x] = letter;
+	Map[x][y] = letter;
 }
 
 void DrawEngine::DrawLine(wchar_t letter, int x, int y, int l, int thickness)
 {
 	for (int a = x; a < (l + x); a++)
-		Map[y][a] = letter;
+		Map[a][y] = letter;
 	for (int b = y; b < (thickness + y); b++)
-		Map[b][x] = letter;
+		Map[x][b] = letter;
 }
 
 void DrawEngine::DrawBox(wchar_t letter, int x, int y, int l, int w)
@@ -34,12 +34,12 @@ void DrawEngine::PutText(std::wstring text, int x, int y)
 {
 	std::vector<wchar_t> chars(text.begin(), text.end());
 	for (unsigned int i = 0; i < chars.size(); i++)
-		Map[y][x + i] = chars[i];
+		Map[x + i][y] = chars[i];
 }
 
 wchar_t DrawEngine::GetChar(int x, int y)
 {
-	return Map[y][x];
+	return Map[x][y];
 }
 
 void DrawEngine::Draw()
@@ -53,10 +53,10 @@ void DrawEngine::Draw()
 			DWORD numberOfCharsRead;
 			if (ReadConsoleOutputCharacter(stdOutputHandle, &charFromBuffer, 1, location, &numberOfCharsRead))
 			{
-				if (Map[y][x] != charFromBuffer)
+				if (Map[x][y] != charFromBuffer)
 				{
 					DWORD numberOfCharsWritten;
-					if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[y][x], (wcslen(&Map[y][x]) * sizeof(WCHAR)), location, &numberOfCharsWritten))
+					if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[x][y], (wcslen(&Map[x][y]) * sizeof(WCHAR)), location, &numberOfCharsWritten))
 					{
 						ThrowException("Failed to write to the console output at a given location!");
 					}

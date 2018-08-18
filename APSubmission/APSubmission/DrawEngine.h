@@ -13,7 +13,7 @@
 class DrawEngine
 {
 private:
-	wchar_t Map[UCHAR_MAX][UCHAR_MAX]; //Map[y][x]
+	wchar_t Map[UCHAR_MAX][UCHAR_MAX]; //Map[x][y]
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	HANDLE stdOutputHandle;
 public:
