@@ -22,7 +22,7 @@ public:
 	DrawEngine();
 	void FillScreen(wchar_t letter);
 	void DrawSinglePixel(wchar_t letter, int x, int y);
-	void DrawRect(wchar_t letter, int x, int y, int l, int thickness);
+	void DrawLine(wchar_t letter, int x, int y, int l, int thickness);
 	void DrawBox(wchar_t letter, int x, int y, int l, int w);
 	void PutText(std::wstring text, int x, int y);
 	wchar_t GetChar(int x, int y);

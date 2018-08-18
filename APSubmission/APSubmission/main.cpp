@@ -1,7 +1,8 @@
 ﻿#include "Game.h"
 
 #define wait(x) Sleep((DWORD)(x * 1000))
-#define pause(x) fputs("Press any key to continue . . . ", stdout); _getch(); putc('\n', stdout);
+#define pause() fputs("Press any key to continue . . . ", stdout); _getch(); putc('\n', stdout);
+#define GetKey(vkey) (GetKeyState(vkey) >> 15) //If vkey is down, the high bit is 1
 
 Game *game;
 
@@ -46,33 +47,33 @@ int main()
 		while (true) {
 			if (GetConsoleWindow() == GetForegroundWindow())
 			{
-				if (GetAsyncKeyState(VK_RETURN))
+				if (GetKey(VK_RETURN))
 					break;
-				else if (GetAsyncKeyState(VK_ESCAPE))
-					exit(0);
+				else if (GetKey(VK_ESCAPE))
+					goto end;
 			}
 		}
 		game->de->FillScreen(' ');
 	
 		game->de->DrawSinglePixel('@', game->GetPlayerX(), game->GetPlayerY());
 	
-		game->de->DrawRect('+', 0, 1, 11, 1);
-		game->de->DrawRect('+', 10, 0, 1, 1);
+		game->de->DrawLine('+', 0, 1, 11, 1);
+		game->de->DrawLine('+', 10, 0, 1, 1);
 	
 		generateGold();
 	
 		while (true) {
 			if (GetConsoleWindow() == GetForegroundWindow())
 			{
-				if (GetAsyncKeyState(VK_ESCAPE))
+				if (GetKey(VK_ESCAPE))
 					break;
-				else if (GetAsyncKeyState(0x57/*W*/) || GetAsyncKeyState(VK_UP))
+				else if (GetKey(0x57/*W*/) || GetKey(VK_UP))
 					game->MovePlayerUp();
-				else if (GetAsyncKeyState(0x41/*A*/) || GetAsyncKeyState(VK_LEFT))
+				else if (GetKey(0x41/*A*/) || GetKey(VK_LEFT))
 					game->MovePlayerLeft();
-				else if (GetAsyncKeyState(0x53/*S*/) || GetAsyncKeyState(VK_DOWN))
+				else if (GetKey(0x53/*S*/) || GetKey(VK_DOWN))
 					game->MovePlayerDown();
-				else if (GetAsyncKeyState(0x44/*D*/) || GetAsyncKeyState(VK_RIGHT))
+				else if (GetKey(0x44/*D*/) || GetKey(VK_RIGHT))
 					game->MovePlayerRight();
 			}
 	
@@ -83,7 +84,7 @@ int main()
 				{
 					game->score = 0;
 					totalgold = 0;
-					game->de->DrawRect(' ', 0, 0, 10, 1);
+					game->de->DrawLine(' ', 0, 0, 10, 1);
 					generateGold();
 				}
 				else break;
@@ -92,6 +93,7 @@ int main()
 			game->de->PutText(scstr.c_str(), 0, 0);
 			game->de->Draw();
 		}
+		end:
 		delete game;
 	}
 	catch (std::exception e)

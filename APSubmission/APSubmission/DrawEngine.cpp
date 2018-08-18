@@ -14,20 +14,20 @@ void DrawEngine::DrawSinglePixel(wchar_t letter, int x, int y)
 	Map[y][x] = letter;
 }
 
-void DrawEngine::DrawRect(wchar_t letter, int x, int y, int l, int w)
+void DrawEngine::DrawLine(wchar_t letter, int x, int y, int l, int thickness)
 {
 	for (int a = x; a < (l + x); a++)
 		Map[y][a] = letter;
-	for (int b = y; b < (w + y); b++)
+	for (int b = y; b < (thickness + y); b++)
 		Map[b][x] = letter;
 }
 
 void DrawEngine::DrawBox(wchar_t letter, int x, int y, int l, int w)
 {
-	DrawRect(letter, x, y, l, 1);
-	DrawRect(letter, x, y, 1, l);
-	DrawRect(letter, (x + w) - 1, y, 1, l);
-	DrawRect(letter, x, (y + l) - 1, l, 1);
+	DrawLine(letter, x, y, l, 1);
+	DrawLine(letter, x, y, 1, l);
+	DrawLine(letter, (x + w) - 1, y, 1, l);
+	DrawLine(letter, x, (y + l) - 1, l, 1);
 }
 
 void DrawEngine::PutText(std::wstring text, int x, int y)
