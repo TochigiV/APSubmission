@@ -1,1 +1,1 @@
-This is just a project I'm working on for my AP Computer Science class.
+This is just a project I was working on for my AP CSP class.
