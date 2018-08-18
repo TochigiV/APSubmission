@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(char letter, int x, int y)
+Game::Game(wchar_t letter, int x, int y)
 {
 	de = new DrawEngine();
 	if (de->GetChar(x, y) != '+')
@@ -19,12 +19,12 @@ Game::~Game()
 	delete de;
 }
 
-void Game::SetWallCharacter(char wallChar)
+void Game::SetWallCharacter(wchar_t wallChar)
 {
 	wallChars = wallChar;
 }
 
-void Game::SetPCharacter(char pChar)
+void Game::SetPCharacter(wchar_t pChar)
 {
 	playerChar = pChar;
 }

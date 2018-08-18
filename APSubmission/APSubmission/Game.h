@@ -7,18 +7,18 @@ class Game
 private:
 	int playerX;
 	int playerY;
-	char prevChar;
-	char playerChar;
-	char wallChars;
+	wchar_t prevChar;
+	wchar_t playerChar;
+	wchar_t wallChars;
 public:
 	DrawEngine *de;
 	int score = 0;
-	Game(char letter, int x, int y);
+	Game(wchar_t letter, int x, int y);
 	~Game();
 	int GetPlayerX() { return playerX; }
 	int GetPlayerY() { return playerY; }
-	void SetWallCharacter(char wallChar);
-	void SetPCharacter(char pChar);
+	void SetWallCharacter(wchar_t wallChar);
+	void SetPCharacter(wchar_t pChar);
 	void MovePlayerUp();
 	void MovePlayerDown();
 	void MovePlayerLeft();

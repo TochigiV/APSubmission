@@ -1,18 +1,20 @@
 #include "DrawEngine.h"
 
-void DrawEngine::FillScreen(char letter)
+#define ThrowException(errstr) throw std::exception(std::string(errstr "\nError code: " + std::to_string(GetLastError())).c_str());
+
+void DrawEngine::FillScreen(wchar_t letter)
 {
 	for (int y = 0; y < rows; y++)
 		for (int x = 0; x < columns; x++)
 			Map[y][x] = letter;
 }
 
-void DrawEngine::DrawSinglePixel(char letter, int x, int y)
+void DrawEngine::DrawSinglePixel(wchar_t letter, int x, int y)
 {
 	Map[y][x] = letter;
 }
 
-void DrawEngine::DrawRect(char letter, int x, int y, int l, int w)
+void DrawEngine::DrawRect(wchar_t letter, int x, int y, int l, int w)
 {
 	for (int a = x; a < (l + x); a++)
 		Map[y][a] = letter;
@@ -20,7 +22,7 @@ void DrawEngine::DrawRect(char letter, int x, int y, int l, int w)
 		Map[b][x] = letter;
 }
 
-void DrawEngine::DrawBox(char letter, int x, int y, int l, int w)
+void DrawEngine::DrawBox(wchar_t letter, int x, int y, int l, int w)
 {
 	DrawRect(letter, x, y, l, 1);
 	DrawRect(letter, x, y, 1, l);
@@ -28,45 +30,79 @@ void DrawEngine::DrawBox(char letter, int x, int y, int l, int w)
 	DrawRect(letter, x, (y + l) - 1, l, 1);
 }
 
-void DrawEngine::PutText(std::string text, int x, int y)
+void DrawEngine::PutText(std::wstring text, int x, int y)
 {
-	std::vector<char> chars(text.begin(), text.end());
+	std::vector<wchar_t> chars(text.begin(), text.end());
 	for (unsigned int i = 0; i < chars.size(); i++)
 		Map[y][x + i] = chars[i];
 }
 
-char DrawEngine::GetChar(int x, int y)
+wchar_t DrawEngine::GetChar(int x, int y)
 {
 	return Map[y][x];
 }
 
-void DrawEngine::cls()
-{
-	COORD topLeft = { 0, 0 };
-	DWORD length = csbi.dwSize.X * csbi.dwSize.Y;
-	DWORD written;
-	std::cout.flush();
-	FillConsoleOutputCharacter(stdHandle, L' ', length, topLeft, &written);
-	FillConsoleOutputAttribute(stdHandle, csbi.wAttributes, length, topLeft, &written);
-	SetConsoleCursorPosition(stdHandle, topLeft);
-}
-
 void DrawEngine::Draw()
 {
-	cls();
 	for (int y = 0; y < rows; y++)
+	{
 		for (int x = 0; x < columns; x++)
-			std::cout << Map[y][x];
+		{
+			wchar_t charFromBuffer;
+			COORD location = { (SHORT)x, (SHORT)y };
+			DWORD numberOfCharsRead;
+			if (ReadConsoleOutputCharacter(stdOutputHandle, &charFromBuffer, 1, location, &numberOfCharsRead))
+			{
+				if (Map[y][x] != charFromBuffer)
+				{
+					DWORD numberOfCharsWritten;
+					if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[y][x], (wcslen(&Map[y][x]) * sizeof(WCHAR)), location, &numberOfCharsWritten))
+					{
+						ThrowException("Failed to write to the console output at a given location!");
+					}
+				}
+			}
+			else
+			{
+				ThrowException("Failed to read the console output character at a given location!");
+			}
+		}
+	}
 }
 
 DrawEngine::DrawEngine()
 {
-	stdHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-	GetConsoleScreenBufferInfo(stdHandle, &csbi);
-	columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-	rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+	stdOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (stdOutputHandle != INVALID_HANDLE_VALUE)
+	{
+		if (GetConsoleScreenBufferInfo(stdOutputHandle, &csbi))
+		{
+			columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+			rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 
-	COORD NewSBSize = { (SHORT)columns, (SHORT)rows };
-	SetConsoleScreenBufferSize(stdHandle, NewSBSize);
-	FillScreen(' ');
+			COORD NewSBSize = { (SHORT)columns, (SHORT)rows };
+			if (SetConsoleScreenBufferSize(stdOutputHandle, NewSBSize))
+			{
+				FillScreen(TEXT(' '));
+
+				CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };
+				if (!SetConsoleCursorInfo(stdOutputHandle, &cursorInfo))
+				{
+					ThrowException("Failed to set console cursor info!");
+				}
+			}
+			else
+			{
+				ThrowException("Failed to set the console buffer size!");
+			}
+		}
+		else
+		{
+			ThrowException("Failed to get the console buffer info!");
+		}
+	}
+	else
+	{
+		ThrowException("Failed to get the console output handle!");
+	}
 }
