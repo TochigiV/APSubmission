@@ -4,8 +4,8 @@
 
 void DrawEngine::FillScreen(wchar_t letter)
 {
-	for (int y = 0; y < rows; y++)
-		for (int x = 0; x < columns; x++)
+	for (int y = 0; y != rows; y++)
+		for (int x = 0; x != columns; x++)
 			Map[x][y] = letter;
 }
 
@@ -16,9 +16,9 @@ void DrawEngine::DrawSinglePixel(wchar_t letter, int x, int y)
 
 void DrawEngine::DrawLine(wchar_t letter, int x, int y, int l, int thickness)
 {
-	for (int a = x; a < (l + x); a++)
+	for (int a = x; a != (l + x); a++)
 		Map[a][y] = letter;
-	for (int b = y; b < (thickness + y); b++)
+	for (int b = y; b != (thickness + y); b++)
 		Map[x][b] = letter;
 }
 
@@ -33,7 +33,7 @@ void DrawEngine::DrawBox(wchar_t letter, int x, int y, int l, int w)
 void DrawEngine::PutText(std::wstring text, int x, int y)
 {
 	std::vector<wchar_t> chars(text.begin(), text.end());
-	for (unsigned int i = 0; i < chars.size(); i++)
+	for (unsigned int i = 0; i != chars.size(); i++)
 		Map[x + i][y] = chars[i];
 }
 
@@ -44,9 +44,9 @@ wchar_t DrawEngine::GetChar(int x, int y)
 
 void DrawEngine::Draw()
 {
-	for (int y = 0; y < rows; y++)
+	for (int y = 0; y != rows; y++)
 	{
-		for (int x = 0; x < columns; x++)
+		for (int x = 0; x != columns; x++)
 		{
 			wchar_t charFromBuffer;
 			COORD location = { (SHORT)x, (SHORT)y };
