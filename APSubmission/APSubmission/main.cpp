@@ -2,7 +2,13 @@
 
 #define wait(x) Sleep((DWORD)(x * 1000))
 #define pause() fputs("Press any key to continue . . . ", stdout); _getch(); putc('\n', stdout);
-#define GetKey(vkey) (GetKeyState(vkey) >> 15) //If vkey is down, the high bit is 1
+
+#define USE_ASYNC 1 //set to 0 if you want to use GetKeyState instead of GetAsyncKeyState
+#if USE_ASYNC
+	#define GetKey(vkey) (GetAsyncKeyState(vkey) >> 15) //If vkey is down, the high bit is 1
+#else
+	#define GetKey(vkey) (GetKeyState(vkey) >> 15) //If vkey is down, the high bit is 1
+#endif
 
 Game *game;
 
@@ -20,7 +26,7 @@ void generateGold()
 		x += 2; y += 2;
 		wchar_t a = game->de->GetChar(x, y);
 		if (a != TEXT('+') && a != TEXT('@') && a != TEXT('&'))
-			game->de->DrawSinglePixel('#', x, y);
+			game->de->DrawSinglePixel(TEXT('#'), x, y);
 		else totalgold--;
 	}
 }
@@ -54,12 +60,12 @@ int main()
 					goto end;
 			}
 		}
-		game->de->FillScreen(' ');
+		game->de->FillScreen(TEXT(' '));
 	
-		game->de->DrawSinglePixel('@', game->GetPlayerX(), game->GetPlayerY());
+		game->de->DrawSinglePixel(TEXT('@'), game->GetPlayerX(), game->GetPlayerY());
 	
-		game->de->DrawLine('+', 0, 1, 11, 1);
-		game->de->DrawLine('+', 10, 0, 1, 1);
+		game->de->DrawLine(TEXT('+'), 0, 1, 11, 1);
+		game->de->DrawLine(TEXT('+'), 10, 0, 1, 1);
 	
 		generateGold();
 	
@@ -99,8 +105,7 @@ int main()
 	}
 	catch (std::exception e)
 	{
-		std::cerr << e.what() << std::endl;
-		pause();
+		MessageBoxA(consoleWindow, e.what(), "Error", MB_OK | MB_ICONERROR); //since std::exception uses std::string and not std::wstring we call MessageBoxA
 	}
 	return 0;
 }
