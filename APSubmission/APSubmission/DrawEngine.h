@@ -16,9 +16,9 @@ private:
 	wchar_t Map[UCHAR_MAX][UCHAR_MAX]; //Map[x][y]
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	HANDLE stdOutputHandle;
-public:
 	int columns = 0; //x
 	int rows = 0; //y
+public:
 	DrawEngine();
 	void FillScreen(wchar_t letter);
 	void DrawSinglePixel(wchar_t letter, int x, int y);
