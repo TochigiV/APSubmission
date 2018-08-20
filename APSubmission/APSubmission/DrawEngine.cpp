@@ -1,6 +1,6 @@
 #include "DrawEngine.h"
 
-#define ThrowException(errstr) throw std::exception(std::string(errstr "\nError code: " + std::to_string(GetLastError())).c_str());
+#define ThrowException(errstr) throw std::wstring(TEXT(errstr) TEXT("\n Error code: ") + std::to_wstring(GetLastError()));
 
 void DrawEngine::FillScreen(wchar_t letter)
 {
@@ -64,7 +64,7 @@ void DrawEngine::Draw()
 			}
 			else
 			{
-				ThrowException("Failed to read the console output character at a given location!");
+				ThrowException("Failed to read from the console output at a given location!");
 			}
 		}
 	}
@@ -88,7 +88,7 @@ DrawEngine::DrawEngine()
 				CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };
 				if (!SetConsoleCursorInfo(stdOutputHandle, &cursorInfo))
 				{
-					ThrowException("Failed to set console cursor info!");
+					ThrowException("Failed to set the console cursor info!");
 				}
 			}
 			else
