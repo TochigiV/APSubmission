@@ -1,1 +1,1 @@
-This is just a project I was working on for my AP CSP class.
+This was originally a project I made for my old AP CSP class, but I decided to develop it into a library that makes it easier to draw things using the console.
