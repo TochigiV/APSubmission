@@ -37,19 +37,36 @@ SOFTWARE.
 class DrawEngine
 {
 private:
+
+#ifdef UNICODE
 	wchar_t Map[UCHAR_MAX][UCHAR_MAX]; //Map[x][y]
+#else
+	char Map[UCHAR_MAX][UCHAR_MAX];
+#endif
+
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	HANDLE stdOutputHandle;
 	int columns = 0; //x
 	int rows = 0; //y
 public:
 	DrawEngine();
+
+#ifdef UNICODE
 	void FillScreen(wchar_t letter);
-	void DrawSinglePixel(wchar_t letter, int x, int y);
-	void DrawLine(wchar_t letter, int x, int y, int l, int thickness);
-	void DrawBox(wchar_t letter, int x, int y, int l, int w);
+	void DrawPixel(wchar_t letter, int x, int y);
+	void DrawRectangle(wchar_t letter, int x, int y, int l, int thickness);
+	void DrawEmptyRectangle(wchar_t letter, int x, int y, int l, int w);
 	void PutText(std::wstring text, int x, int y);
 	wchar_t GetChar(int x, int y);
+#else
+	void FillScreen(char letter);
+	void DrawPixel(char letter, int x, int y);
+	void DrawEmptyRectangle(char letter, int x, int y, int l, int thickness);
+	void DrawRectangle(char letter, int x, int y, int l, int w);
+	void PutText(std::string text, int x, int y);
+	char GetChar(int x, int y);
+#endif
+
 	void Draw();
 	int GetColumns() { return columns; }
 	int GetRows() { return rows; }

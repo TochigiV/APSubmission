@@ -24,31 +24,38 @@ SOFTWARE.
 
 #include "Game.h"
 
+#ifdef UNICODE
 Game::Game(wchar_t letter, int x, int y)
+#else
+Game::Game(char letter, int x, int y)
+#endif
 {
-	drawEngine = new DrawEngine();
+	drawEngine = std::make_shared<DrawEngine>();
 	if (drawEngine->GetChar(x, y) != '+')
 	{
 		playerX = x;
 		playerY = y;
 		prevChar = drawEngine->GetChar(x, y);
 		playerChar = letter;
-		drawEngine->DrawSinglePixel(playerChar, playerX, playerY);
+		drawEngine->DrawPixel(playerChar, playerX, playerY);
 	}
 	else Game(letter, (x + 1), (y + 1));
 }
 
-Game::~Game()
-{
-	delete drawEngine;
-}
-
+#ifdef UNICODE
 void Game::SetWallCharacter(wchar_t wallChar)
+#else
+void Game::SetWallCharacter(char wallChar)
+#endif
 {
 	wallChars = wallChar;
 }
 
+#ifdef UNICODE
 void Game::SetPlayerCharacter(wchar_t pChar)
+#else
+void Game::SetPlayerCharacter(char pChar)
+#endif
 {
 	playerChar = pChar;
 }
@@ -57,11 +64,11 @@ void Game::MovePlayerUp()
 {
 	if (playerY != 0 && drawEngine->GetChar(playerX, (playerY - 1)) != wallChars)
 	{
-		drawEngine->DrawSinglePixel(prevChar, playerX, playerY);
+		drawEngine->DrawPixel(prevChar, playerX, playerY);
 		playerY--;
 		prevChar = drawEngine->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawSinglePixel(playerChar, playerX, playerY);
+		drawEngine->DrawPixel(playerChar, playerX, playerY);
 	}
 }
 
@@ -69,11 +76,11 @@ void Game::MovePlayerDown()
 {
 	if (playerY != (drawEngine->GetRows() - 1) && drawEngine->GetChar(playerX, (playerY + 1)) != wallChars)
 	{
-		drawEngine->DrawSinglePixel(prevChar, playerX, playerY);
+		drawEngine->DrawPixel(prevChar, playerX, playerY);
 		playerY++;
 		prevChar = drawEngine->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawSinglePixel(playerChar, playerX, playerY);
+		drawEngine->DrawPixel(playerChar, playerX, playerY);
 	}
 }
 
@@ -81,11 +88,11 @@ void Game::MovePlayerLeft()
 {
 	if (playerX != 0 && drawEngine->GetChar((playerX - 1), playerY) != wallChars)
 	{
-		drawEngine->DrawSinglePixel(prevChar, playerX, playerY);
+		drawEngine->DrawPixel(prevChar, playerX, playerY);
 		playerX--;
 		prevChar = drawEngine->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawSinglePixel(playerChar, playerX, playerY);
+		drawEngine->DrawPixel(playerChar, playerX, playerY);
 	}
 }
 
@@ -93,10 +100,10 @@ void Game::MovePlayerRight()
 {
 	if (playerX != (drawEngine->GetColumns() - 1) && drawEngine->GetChar((playerX + 1), playerY) != wallChars)
 	{
-		drawEngine->DrawSinglePixel(prevChar, playerX, playerY);
+		drawEngine->DrawPixel(prevChar, playerX, playerY);
 		playerX++;
 		prevChar = drawEngine->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawSinglePixel(playerChar, playerX, playerY);
+		drawEngine->DrawPixel(playerChar, playerX, playerY);
 	}
 }

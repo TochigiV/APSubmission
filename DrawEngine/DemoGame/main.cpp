@@ -24,50 +24,46 @@ SOFTWARE.
 
 #include "Game.h"
 
-#define wait(x) Sleep((DWORD)(x * 1000))
-#define pause() fputs("Press any key to continue . . . ", stdout); _getch(); fputc('\n', stdout);
+#define WAIT(x) Sleep((DWORD)(x * 1000))
+#define PAUSE() fputs("Press any key to continue . . . ", stdout); _getch(); fputc('\n', stdout);
 
 #define USE_ASYNC 1 //set to 0 if you want to use GetKeyState instead of GetAsyncKeyState
 #if USE_ASYNC
-	#define GetKey(vkey) (GetAsyncKeyState(vkey) >> 15) //If vkey is down, the high bit is 1
+	#define GETKEY(vkey) (GetAsyncKeyState(vkey) >> 15) //If vkey is down, the high bit is 1
 #else
-	#define GetKey(vkey) (GetKeyState(vkey) >> 15) //If vkey is down, the high bit is 1
+	#define GETKEY(vkey) (GetKeyState(vkey) >> 15) //If vkey is down, the high bit is 1
 #endif
 
-Game* game;
-DrawEngine* drawEngine;
+std::shared_ptr<Game> game;
+std::shared_ptr<DrawEngine> drawEngine;
 
 int totalGold;
 
 void generateGold()
-
 {
 	srand((unsigned int)time(nullptr));
 	int ammount = rand() % 51;
 	for (totalGold = 0; totalGold != ammount; totalGold++)
 	{
-		int x = rand() % (drawEngine->GetColumns() - 2);
-		int y = rand() % (drawEngine->GetRows() - 2);
-		x += 2; y += 2;
-		wchar_t a = drawEngine->GetChar(x, y);
-		if (a != TEXT('+') && a != TEXT('@') && a != TEXT('&'))
-			drawEngine->DrawSinglePixel(TEXT('#'), x, y);
+		int x = (rand() % (drawEngine->GetColumns() - 1)) + 1;
+		int y = rand() % drawEngine->GetRows();
+		wchar_t currentChar = drawEngine->GetChar(x, y);
+		if (currentChar != TEXT('+') && currentChar != TEXT('@') && currentChar != TEXT('&'))
+			drawEngine->DrawPixel(TEXT('#'), x, y);
 		else totalGold--;
 	}
 }
 
-bool multiplayer = false;
-
 int main()
 {
 	HWND consoleWindow = GetConsoleWindow();
-	SetConsoleTitle(TEXT("APSubmission"));
+	SetConsoleTitle(TEXT("DemoGame"));
 	SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
 	try
 	{
-		game = new Game(TEXT('@'), 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
+		game = std::make_shared<Game>(TEXT('@'), 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
 		game->SetWallCharacter(TEXT('+')); //sets the character that will act as a wall
-		drawEngine = game->drawEngine;	
+		drawEngine = std::dynamic_pointer_cast<DrawEngine>(game->drawEngine);
 
 		drawEngine->FillScreen(TEXT(' '));
 		drawEngine->PutText(TEXT("+ = wall"), 20, 11);
@@ -76,62 +72,69 @@ int main()
 		drawEngine->PutText(TEXT("W, A, S, D, Up Arrow, Down Arrow, Left Arrow, Right Arrow = movement"), 20, 14);
 		drawEngine->PutText(TEXT("Press Enter to continue (or Esc to exit)"), 20, 15);
 		drawEngine->Draw();
-		wait(0.1);
+		WAIT(0.1);
 		while (true) {
 			if (consoleWindow == GetForegroundWindow())
 			{
-				if (GetKey(VK_RETURN))
+				if (GETKEY(VK_RETURN))
 					break;
-				else if (GetKey(VK_ESCAPE))
+				else if (GETKEY(VK_ESCAPE))
 					goto end;
 			}
 		}
 		drawEngine->FillScreen(TEXT(' '));
 	
-		drawEngine->DrawSinglePixel(TEXT('@'), game->GetPlayerX(), game->GetPlayerY());
+		drawEngine->DrawPixel(TEXT('@'), game->GetPlayerX(), game->GetPlayerY());
 	
-		drawEngine->DrawLine(TEXT('+'), 0, 1, 11, 1);
-		drawEngine->DrawLine(TEXT('+'), 10, 0, 1, 1);
-	
+		drawEngine->DrawRectangle(TEXT('+'), 0, 1, 11, 1);
+		drawEngine->DrawRectangle(TEXT('+'), 10, 0, 1, 1);
+
 		generateGold();
 	
 		while (true) {
 			if (consoleWindow == GetForegroundWindow())
 			{
-				if (GetKey(VK_ESCAPE))
+				if (GETKEY(VK_ESCAPE))
 					break;
-				else if (GetKey(0x57/*W*/) || GetKey(VK_UP))
+				else if (GETKEY(0x57/*W*/) || GETKEY(VK_UP))
 					game->MovePlayerUp();
-				else if (GetKey(0x41/*A*/) || GetKey(VK_LEFT))
+				else if (GETKEY(0x41/*A*/) || GETKEY(VK_LEFT))
 					game->MovePlayerLeft();
-				else if (GetKey(0x53/*S*/) || GetKey(VK_DOWN))
+				else if (GETKEY(0x53/*S*/) || GETKEY(VK_DOWN))
 					game->MovePlayerDown();
-				else if (GetKey(0x44/*D*/) || GetKey(VK_RIGHT))
+				else if (GETKEY(0x44/*D*/) || GETKEY(VK_RIGHT))
 					game->MovePlayerRight();
 			}
 	
 			if (game->score > 9999) game->score = 9999;
 			if (game->score == totalGold)
 			{
-				if (MessageBox(NULL, TEXT("You got all of the gold! Play again?"), TEXT("Congrats!"), MB_YESNO) == IDYES)
-				{
-					game->score = 0;
-					totalGold = 0;
-					drawEngine->DrawLine(' ', 0, 0, 10, 1);
-					generateGold();
-				}
-				else break;
+				if (MessageBox(NULL, TEXT("You got all of the gold! Play again?"), TEXT("Congrats!"), MB_YESNO) != IDYES)
+					break;
+				game->score = 0;
+				totalGold = 0;
+				drawEngine->DrawRectangle(TEXT(' '), 0, 0, 10, 1);
+				generateGold();
 			}
+#ifdef UNICODE
 			std::wstring scoreString = TEXT("Gold: ") + std::to_wstring(game->score);
+#else
+			std::string scoreString = TEXT("Gold: ") + std::to_string(game->score);
+#endif
 			drawEngine->PutText(scoreString.c_str(), 0, 0);
 			drawEngine->Draw();
 		}
 	}
+
+#ifdef UNICODE
 	catch (std::wstring exceptionMessage)
+#else 
+	catch (std::string exceptionMessage)
+#endif
+
 	{
 		MessageBox(consoleWindow, exceptionMessage.c_str(), TEXT("Error"), MB_OK | MB_ICONERROR);
 	}
 	end:
-	delete game; //if it exists (which it should)
 	return 0;
 }

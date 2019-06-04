@@ -24,27 +24,43 @@ SOFTWARE.
 
 #pragma once
 
-#include "DrawEngine.h"
+#include <DrawEngine.h>
 
 class Game
 {
 private:
 	int playerX;
 	int playerY;
+
+#ifdef UNICODE
 	wchar_t prevChar;
 	wchar_t playerChar;
 	wchar_t wallChars;
+#else
+	char prevChar;
+	char playerChar;
+	char wallChars;
+#endif
+
 public:
-	DrawEngine *drawEngine;
+	std::shared_ptr<DrawEngine> drawEngine;
 	int score = 0;
+
+#ifdef UNICODE
 	Game(wchar_t letter, int x, int y);
-	~Game();
-	int GetPlayerX() { return playerX; }
-	int GetPlayerY() { return playerY; }
 	void SetWallCharacter(wchar_t wallChar);
 	void SetPlayerCharacter(wchar_t pChar);
+#else
+	Game(char letter, int x, int y);
+	void SetWallCharacter(char wallChar);
+	void SetPlayerCharacter(char pChar);
+#endif
+
 	void MovePlayerUp();
 	void MovePlayerDown();
 	void MovePlayerLeft();
 	void MovePlayerRight();
+
+	int GetPlayerX() { return playerX; }
+	int GetPlayerY() { return playerY; }
 };
