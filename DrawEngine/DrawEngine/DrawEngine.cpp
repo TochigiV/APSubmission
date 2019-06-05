@@ -171,7 +171,4 @@ DrawEngine::DrawEngine()
 	CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };
 	if (!SetConsoleCursorInfo(stdOutputHandle, &cursorInfo))
 		THROWEXCEPTION("Failed to set the console cursor info!");
-
-	if (!SetConsoleTextAttribute(stdOutputHandle, 255))
-		THROWEXCEPTION("Failed to set console text attributes!");
 }
