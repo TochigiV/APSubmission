@@ -43,6 +43,7 @@ private:
 #else
 	char Map[UCHAR_MAX][UCHAR_MAX];
 #endif
+	WORD MapAttributes[UCHAR_MAX][UCHAR_MAX];
 
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	HANDLE stdOutputHandle;
@@ -52,18 +53,18 @@ public:
 	DrawEngine();
 
 #ifdef UNICODE
-	void FillScreen(wchar_t letter);
-	void DrawPixel(wchar_t letter, int x, int y);
-	void DrawRectangle(wchar_t letter, int x, int y, int l, int thickness);
-	void DrawEmptyRectangle(wchar_t letter, int x, int y, int l, int w);
-	void PutText(std::wstring text, int x, int y);
+	void FillScreen(wchar_t letter, WORD attributes = 7);
+	void DrawPixel(wchar_t letter, int x, int y, WORD attributes = 7);
+	void DrawRectangle(wchar_t letter, int x, int y, int l, int thickness, WORD attributes = 7);
+	void DrawEmptyRectangle(wchar_t letter, int x, int y, int l, int w, WORD attributes = 7);
+	void PutText(std::wstring text, int x, int y, WORD attributes = 7);
 	wchar_t GetChar(int x, int y);
 #else
-	void FillScreen(char letter);
-	void DrawPixel(char letter, int x, int y);
-	void DrawEmptyRectangle(char letter, int x, int y, int l, int thickness);
-	void DrawRectangle(char letter, int x, int y, int l, int w);
-	void PutText(std::string text, int x, int y);
+	void FillScreen(char letter, WORD attributes = 7);
+	void DrawPixel(char letter, int x, int y, WORD attributes = 7);
+	void DrawEmptyRectangle(char letter, int x, int y, int l, int thickness, WORD attributes = 7);
+	void DrawRectangle(char letter, int x, int y, int l, int w, WORD attributes = 7);
+	void PutText(std::string text, int x, int y, WORD attributes = 7);
 	char GetChar(int x, int y);
 #endif
 

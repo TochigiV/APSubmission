@@ -49,7 +49,7 @@ void generateGold()
 		int y = rand() % drawEngine->GetRows();
 		wchar_t currentChar = drawEngine->GetChar(x, y);
 		if (currentChar != TEXT('+') && currentChar != TEXT('@') && currentChar != TEXT('&'))
-			drawEngine->DrawPixel(TEXT('#'), x, y);
+			drawEngine->DrawPixel(TEXT('#'), x, y, 14);
 		else totalGold--;
 	}
 }
@@ -64,7 +64,6 @@ int main()
 		game = std::make_shared<Game>(TEXT('@'), 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
 		game->SetWallCharacter(TEXT('+')); //sets the character that will act as a wall
 		drawEngine = std::dynamic_pointer_cast<DrawEngine>(game->drawEngine);
-
 		drawEngine->FillScreen(TEXT(' '));
 		drawEngine->PutText(TEXT("+ = wall"), 20, 11);
 		drawEngine->PutText(TEXT("@ = player"), 20, 12);
@@ -84,7 +83,7 @@ int main()
 		}
 		drawEngine->FillScreen(TEXT(' '));
 	
-		drawEngine->DrawPixel(TEXT('@'), game->GetPlayerX(), game->GetPlayerY());
+		drawEngine->DrawPixel(TEXT('@'), game->GetPlayerX(), game->GetPlayerY(), 10);
 	
 		drawEngine->DrawRectangle(TEXT('+'), 0, 1, 11, 1);
 		drawEngine->DrawRectangle(TEXT('+'), 10, 0, 1, 1);
@@ -131,7 +130,6 @@ int main()
 #else 
 	catch (std::string exceptionMessage)
 #endif
-
 	{
 		MessageBox(consoleWindow, exceptionMessage.c_str(), TEXT("Error"), MB_OK | MB_ICONERROR);
 	}

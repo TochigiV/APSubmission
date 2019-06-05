@@ -31,57 +31,73 @@ SOFTWARE.
 #endif
 
 #ifdef UNICODE
-void DrawEngine::FillScreen(wchar_t letter)
+void DrawEngine::FillScreen(wchar_t letter, WORD attributes)
 #else
-void DrawEngine::FillScreen(char letter)
+void DrawEngine::FillScreen(char letter, WORD attributes)
 #endif
 {
 	for (int y = 0; y != rows; y++)
+	{
 		for (int x = 0; x != columns; x++)
+		{
 			Map[x][y] = letter;
+			MapAttributes[x][y] = attributes;
+		}
+	}
+			
 }
 
 #ifdef UNICODE
-void DrawEngine::DrawPixel(wchar_t letter, int x, int y)
+void DrawEngine::DrawPixel(wchar_t letter, int x, int y, WORD attributes)
 #else
-void DrawEngine::DrawPixel(char letter, int x, int y)
+void DrawEngine::DrawPixel(char letter, int x, int y, WORD attributes)
 #endif
 {
 	Map[x][y] = letter;
+	MapAttributes[x][y] = attributes;
 }
 
 #ifdef UNICODE
-void DrawEngine::DrawRectangle(wchar_t letter, int x, int y, int l, int w)
+void DrawEngine::DrawRectangle(wchar_t letter, int x, int y, int l, int w, WORD attributes)
 #else
-void DrawEngine::DrawRectangle(char letter, int x, int y, int l, int w)
+void DrawEngine::DrawRectangle(char letter, int x, int y, int l, int w, WORD attributes)
 #endif
 {
 	for (int a = x; a != (l + x); a++)
+	{
 		Map[a][y] = letter;
+		MapAttributes[x][y] = attributes;
+	}
 	for (int b = y; b != (w + y); b++)
+	{
 		Map[x][b] = letter;
+		MapAttributes[x][y] = attributes;
+	}
 }
 
 #ifdef UNICODE
-void DrawEngine::DrawEmptyRectangle(wchar_t letter, int x, int y, int l, int w)
+void DrawEngine::DrawEmptyRectangle(wchar_t letter, int x, int y, int l, int w, WORD attributes)
 #else
-void DrawEngine::DrawEmptyRectangle(char letter, int x, int y, int l, int w)
+void DrawEngine::DrawEmptyRectangle(char letter, int x, int y, int l, int w, WORD attributes)
 #endif
 {
-	DrawRectangle(letter, x, y, l, 1);
-	DrawRectangle(letter, x, y, 1, l);
-	DrawRectangle(letter, (x + w) - 1, y, 1, l);
-	DrawRectangle(letter, x, (y + l) - 1, l, 1);
+	DrawRectangle(letter, x, y, l, 1, attributes);
+	DrawRectangle(letter, x, y, 1, l, attributes);
+	DrawRectangle(letter, (x + w) - 1, y, 1, l, attributes);
+	DrawRectangle(letter, x, (y + l) - 1, l, 1, attributes);
 }
 
 #ifdef UNICODE
-void DrawEngine::PutText(std::wstring text, int x, int y)
+void DrawEngine::PutText(std::wstring text, int x, int y, WORD attributes)
 #else
-void DrawEngine::PutText(std::string text, int x, int y)
+void DrawEngine::PutText(std::string text, int x, int y, WORD attributes)
 #endif
 {
 	for (unsigned int i = 0; i != text.length(); i++)
+	{
 		Map[x + i][y] = text[i];
+		MapAttributes[x + i][y] = attributes;
+	}
 }
 
 #ifdef UNICODE
@@ -107,6 +123,7 @@ void DrawEngine::Draw()
 #endif
 
 			COORD location = { (SHORT)x, (SHORT)y };
+
 			DWORD numberOfCharsRead;
 
 			if (!ReadConsoleOutputCharacter(stdOutputHandle, &charFromBuffer, 1, location, &numberOfCharsRead))
@@ -114,6 +131,7 @@ void DrawEngine::Draw()
 
 			if (Map[x][y] != charFromBuffer)
 			{
+
 				DWORD numberOfCharsWritten;
 #ifdef UNICODE
 				if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[x][y], (wcslen(&Map[x][y]) * sizeof(WCHAR)), location, &numberOfCharsWritten))
@@ -121,6 +139,12 @@ void DrawEngine::Draw()
 				if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[x][y], (strlen(&Map[x][y]) * sizeof(WCHAR)), location, &numberOfCharsWritten))
 #endif
 					THROWEXCEPTION("Failed to write to the console output at a given location!");
+
+				DWORD numberOfAttributesWritten;
+
+				if (!WriteConsoleOutputAttribute(stdOutputHandle, &MapAttributes[x][y], 1, location, &numberOfAttributesWritten))
+					THROWEXCEPTION("Failed to set console text attributes at a given location!");
+
 			}
 		}
 	}
@@ -147,4 +171,7 @@ DrawEngine::DrawEngine()
 	CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };
 	if (!SetConsoleCursorInfo(stdOutputHandle, &cursorInfo))
 		THROWEXCEPTION("Failed to set the console cursor info!");
+
+	if (!SetConsoleTextAttribute(stdOutputHandle, 255))
+		THROWEXCEPTION("Failed to set console text attributes!");
 }

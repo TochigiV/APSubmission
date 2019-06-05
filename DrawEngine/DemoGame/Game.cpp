@@ -37,7 +37,7 @@ Game::Game(char letter, int x, int y)
 		playerY = y;
 		prevChar = drawEngine->GetChar(x, y);
 		playerChar = letter;
-		drawEngine->DrawPixel(playerChar, playerX, playerY);
+		drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
 	}
 	else Game(letter, (x + 1), (y + 1));
 }
@@ -68,7 +68,7 @@ void Game::MovePlayerUp()
 		playerY--;
 		prevChar = drawEngine->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawPixel(playerChar, playerX, playerY);
+		drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
 	}
 }
 
@@ -80,7 +80,7 @@ void Game::MovePlayerDown()
 		playerY++;
 		prevChar = drawEngine->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawPixel(playerChar, playerX, playerY);
+		drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
 	}
 }
 
@@ -92,7 +92,7 @@ void Game::MovePlayerLeft()
 		playerX--;
 		prevChar = drawEngine->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawPixel(playerChar, playerX, playerY);
+		drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
 	}
 }
 
@@ -104,6 +104,6 @@ void Game::MovePlayerRight()
 		playerX++;
 		prevChar = drawEngine->GetChar(playerX, playerY);
 		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawPixel(playerChar, playerX, playerY);
+		drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
 	}
 }
