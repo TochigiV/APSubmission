@@ -115,11 +115,7 @@ int main()
 				drawEngine->DrawRectangle(TEXT(' '), 0, 0, 10, 1);
 				generateGold();
 			}
-#ifdef UNICODE
-			gstring_t scoreString = TEXT("Gold: ") + std::to_wstring(game->score);
-#else
-			gstring_t scoreString = TEXT("Gold: ") + std::to_string(game->score);
-#endif
+			gstring_t scoreString = TEXT("Gold: ") + TOGSTRING(game->score);
 			drawEngine->PutText(scoreString.c_str(), 0, 0);
 			drawEngine->Draw();
 		}
