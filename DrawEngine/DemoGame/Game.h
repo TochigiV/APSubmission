@@ -32,29 +32,17 @@ private:
 	int playerX;
 	int playerY;
 
-#ifdef UNICODE
-	wchar_t prevChar;
-	wchar_t playerChar;
-	wchar_t wallChars;
-#else
-	char prevChar;
-	char playerChar;
-	char wallChars;
-#endif
+	gchar_t prevChar;
+	gchar_t playerChar;
+	gchar_t wallChars;
 
 public:
-	std::shared_ptr<DrawEngine> drawEngine;
+	std::unique_ptr<DrawEngine> drawEngine;
 	int score = 0;
 
-#ifdef UNICODE
-	Game(wchar_t letter, int x, int y);
-	void SetWallCharacter(wchar_t wallChar);
-	void SetPlayerCharacter(wchar_t pChar);
-#else
-	Game(char letter, int x, int y);
-	void SetWallCharacter(char wallChar);
-	void SetPlayerCharacter(char pChar);
-#endif
+	Game(gchar_t letter, int x, int y);
+	void SetWallCharacter(gchar_t wallChar);
+	void SetPlayerCharacter(gchar_t pChar);
 
 	void MovePlayerUp();
 	void MovePlayerDown();

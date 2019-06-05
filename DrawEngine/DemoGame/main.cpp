@@ -34,8 +34,8 @@ SOFTWARE.
 	#define GETKEY(vkey) (GetKeyState(vkey) >> 15) //If vkey is down, the high bit is 1
 #endif
 
-std::shared_ptr<Game> game;
-std::shared_ptr<DrawEngine> drawEngine;
+std::unique_ptr<Game> game;
+DrawEngine* drawEngine;
 
 int totalGold;
 
@@ -61,9 +61,9 @@ int main()
 	SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
 	try
 	{
-		game = std::make_shared<Game>(TEXT('@'), 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
+		game = std::make_unique<Game>(TEXT('@'), 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
 		game->SetWallCharacter(TEXT('+')); //sets the character that will act as a wall
-		drawEngine = std::dynamic_pointer_cast<DrawEngine>(game->drawEngine);
+		drawEngine = game->drawEngine.get();
 		drawEngine->FillScreen(TEXT(' '));
 		drawEngine->PutText(TEXT("+ = wall"), 20, 11);
 		drawEngine->PutText(TEXT("@ = player"), 20, 12);
@@ -116,20 +116,15 @@ int main()
 				generateGold();
 			}
 #ifdef UNICODE
-			std::wstring scoreString = TEXT("Gold: ") + std::to_wstring(game->score);
+			gstring_t scoreString = TEXT("Gold: ") + std::to_wstring(game->score);
 #else
-			std::string scoreString = TEXT("Gold: ") + std::to_string(game->score);
+			gstring_t scoreString = TEXT("Gold: ") + std::to_string(game->score);
 #endif
 			drawEngine->PutText(scoreString.c_str(), 0, 0);
 			drawEngine->Draw();
 		}
 	}
-
-#ifdef UNICODE
-	catch (std::wstring exceptionMessage)
-#else 
-	catch (std::string exceptionMessage)
-#endif
+	catch (gstring_t exceptionMessage)
 	{
 		MessageBox(consoleWindow, exceptionMessage.c_str(), TEXT("Error"), MB_OK | MB_ICONERROR);
 	}

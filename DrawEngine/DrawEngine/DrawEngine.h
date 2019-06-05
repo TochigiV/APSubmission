@@ -34,15 +34,18 @@ SOFTWARE.
 
 #include <Windows.h>
 
+#ifdef UNICODE
+typedef wchar_t gchar_t;
+typedef std::wstring gstring_t;
+#else
+typedef char gchar_t;
+typedef std::string gstring_t;
+#endif
+
 class DrawEngine
 {
 private:
-
-#ifdef UNICODE
-	wchar_t Map[UCHAR_MAX][UCHAR_MAX]; //Map[x][y]
-#else
-	char Map[UCHAR_MAX][UCHAR_MAX];
-#endif
+	gchar_t Map[UCHAR_MAX][UCHAR_MAX]; //Map[x][y]
 	WORD MapAttributes[UCHAR_MAX][UCHAR_MAX];
 
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -52,21 +55,12 @@ private:
 public:
 	DrawEngine();
 
-#ifdef UNICODE
-	void FillScreen(wchar_t letter, WORD attributes = 7);
-	void DrawPixel(wchar_t letter, int x, int y, WORD attributes = 7);
-	void DrawRectangle(wchar_t letter, int x, int y, int l, int thickness, WORD attributes = 7);
-	void DrawEmptyRectangle(wchar_t letter, int x, int y, int l, int w, WORD attributes = 7);
-	void PutText(std::wstring text, int x, int y, WORD attributes = 7);
-	wchar_t GetChar(int x, int y);
-#else
-	void FillScreen(char letter, WORD attributes = 7);
-	void DrawPixel(char letter, int x, int y, WORD attributes = 7);
-	void DrawEmptyRectangle(char letter, int x, int y, int l, int thickness, WORD attributes = 7);
-	void DrawRectangle(char letter, int x, int y, int l, int w, WORD attributes = 7);
-	void PutText(std::string text, int x, int y, WORD attributes = 7);
-	char GetChar(int x, int y);
-#endif
+	void FillScreen(gchar_t letter, WORD attributes = 7);
+	void DrawPixel(gchar_t letter, int x, int y, WORD attributes = 7);
+	void DrawRectangle(gchar_t letter, int x, int y, int l, int thickness, WORD attributes = 7);
+	void DrawEmptyRectangle(gchar_t letter, int x, int y, int l, int w, WORD attributes = 7);
+	void PutText(gstring_t text, int x, int y, WORD attributes = 7);
+	gchar_t GetChar(int x, int y);
 
 	void Draw();
 	int GetColumns() { return columns; }

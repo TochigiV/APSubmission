@@ -30,11 +30,7 @@ SOFTWARE.
 #define THROWEXCEPTION(errstr) throw std::string(TEXT(errstr) TEXT("\n Error code:") + std::to_string(GetLastError()));
 #endif
 
-#ifdef UNICODE
-void DrawEngine::FillScreen(wchar_t letter, WORD attributes)
-#else
-void DrawEngine::FillScreen(char letter, WORD attributes)
-#endif
+void DrawEngine::FillScreen(gchar_t letter, WORD attributes)
 {
 	for (int y = 0; y != rows; y++)
 	{
@@ -47,21 +43,13 @@ void DrawEngine::FillScreen(char letter, WORD attributes)
 			
 }
 
-#ifdef UNICODE
-void DrawEngine::DrawPixel(wchar_t letter, int x, int y, WORD attributes)
-#else
-void DrawEngine::DrawPixel(char letter, int x, int y, WORD attributes)
-#endif
+void DrawEngine::DrawPixel(gchar_t letter, int x, int y, WORD attributes)
 {
 	Map[x][y] = letter;
 	MapAttributes[x][y] = attributes;
 }
 
-#ifdef UNICODE
-void DrawEngine::DrawRectangle(wchar_t letter, int x, int y, int l, int w, WORD attributes)
-#else
-void DrawEngine::DrawRectangle(char letter, int x, int y, int l, int w, WORD attributes)
-#endif
+void DrawEngine::DrawRectangle(gchar_t letter, int x, int y, int l, int w, WORD attributes)
 {
 	for (int a = x; a != (l + x); a++)
 	{
@@ -75,11 +63,7 @@ void DrawEngine::DrawRectangle(char letter, int x, int y, int l, int w, WORD att
 	}
 }
 
-#ifdef UNICODE
-void DrawEngine::DrawEmptyRectangle(wchar_t letter, int x, int y, int l, int w, WORD attributes)
-#else
-void DrawEngine::DrawEmptyRectangle(char letter, int x, int y, int l, int w, WORD attributes)
-#endif
+void DrawEngine::DrawEmptyRectangle(gchar_t letter, int x, int y, int l, int w, WORD attributes)
 {
 	DrawRectangle(letter, x, y, l, 1, attributes);
 	DrawRectangle(letter, x, y, 1, l, attributes);
@@ -87,11 +71,7 @@ void DrawEngine::DrawEmptyRectangle(char letter, int x, int y, int l, int w, WOR
 	DrawRectangle(letter, x, (y + l) - 1, l, 1, attributes);
 }
 
-#ifdef UNICODE
-void DrawEngine::PutText(std::wstring text, int x, int y, WORD attributes)
-#else
-void DrawEngine::PutText(std::string text, int x, int y, WORD attributes)
-#endif
+void DrawEngine::PutText(gstring_t text, int x, int y, WORD attributes)
 {
 	for (unsigned int i = 0; i != text.length(); i++)
 	{
@@ -100,11 +80,7 @@ void DrawEngine::PutText(std::string text, int x, int y, WORD attributes)
 	}
 }
 
-#ifdef UNICODE
-wchar_t DrawEngine::GetChar(int x, int y)
-#else
-char DrawEngine::GetChar(int x, int y)
-#endif
+gchar_t DrawEngine::GetChar(int x, int y)
 {
 	return Map[x][y];
 }
@@ -115,12 +91,7 @@ void DrawEngine::Draw()
 	{
 		for (int x = 0; x != columns; x++)
 		{
-
-#ifdef UNICODE
-			wchar_t charFromBuffer;
-#else
-			char charFromBuffer;
-#endif
+			gchar_t charFromBuffer;
 
 			COORD location = { (SHORT)x, (SHORT)y };
 
@@ -134,9 +105,9 @@ void DrawEngine::Draw()
 
 				DWORD numberOfCharsWritten;
 #ifdef UNICODE
-				if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[x][y], (wcslen(&Map[x][y]) * sizeof(WCHAR)), location, &numberOfCharsWritten))
+				if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[x][y], (wcslen(&Map[x][y]) * sizeof(gchar_t)), location, &numberOfCharsWritten))
 #else
-				if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[x][y], (strlen(&Map[x][y]) * sizeof(WCHAR)), location, &numberOfCharsWritten))
+				if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[x][y], (strlen(&Map[x][y]) * sizeof(gchar_t)), location, &numberOfCharsWritten))
 #endif
 					THROWEXCEPTION("Failed to write to the console output at a given location!");
 

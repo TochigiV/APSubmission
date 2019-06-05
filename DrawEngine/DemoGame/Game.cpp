@@ -24,13 +24,9 @@ SOFTWARE.
 
 #include "Game.h"
 
-#ifdef UNICODE
-Game::Game(wchar_t letter, int x, int y)
-#else
-Game::Game(char letter, int x, int y)
-#endif
+Game::Game(gchar_t letter, int x, int y)
 {
-	drawEngine = std::make_shared<DrawEngine>();
+	drawEngine = std::make_unique<DrawEngine>();
 	if (drawEngine->GetChar(x, y) != '+')
 	{
 		playerX = x;
@@ -42,20 +38,12 @@ Game::Game(char letter, int x, int y)
 	else Game(letter, (x + 1), (y + 1));
 }
 
-#ifdef UNICODE
-void Game::SetWallCharacter(wchar_t wallChar)
-#else
-void Game::SetWallCharacter(char wallChar)
-#endif
+void Game::SetWallCharacter(gchar_t wallChar)
 {
 	wallChars = wallChar;
 }
 
-#ifdef UNICODE
-void Game::SetPlayerCharacter(wchar_t pChar)
-#else
-void Game::SetPlayerCharacter(char pChar)
-#endif
+void Game::SetPlayerCharacter(gchar_t pChar)
 {
 	playerChar = pChar;
 }
