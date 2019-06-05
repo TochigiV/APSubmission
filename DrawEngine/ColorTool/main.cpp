@@ -11,7 +11,7 @@ int main()
 	for (int i = 0; i != 255; i++)
 	{
 		SetConsoleTextAttribute(stdOutputHandle, i);
-		std::cout << "Text attributes: " << i << std::endl;
+		std::cout << "Text attribute #" << i << std::endl;
 	}
 	SetConsoleTextAttribute(stdOutputHandle, 7);
 	PAUSE();
