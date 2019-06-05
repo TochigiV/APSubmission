@@ -24,11 +24,7 @@ SOFTWARE.
 
 #include "DrawEngine.h"
 
-#ifdef UNICODE
-#define THROWEXCEPTION(errstr) throw std::wstring(TEXT(errstr) TEXT("\n Error code: ") + std::to_wstring(GetLastError()));
-#else
-#define THROWEXCEPTION(errstr) throw std::string(TEXT(errstr) TEXT("\n Error code:") + std::to_string(GetLastError()));
-#endif
+#define THROWEXCEPTION(errstr) throw gstring_t(TEXT(errstr) TEXT("\n Error code: ") + TOGSTRING(GetLastError()));
 
 void DrawEngine::FillScreen(gchar_t letter, WORD attributes)
 {
@@ -104,11 +100,7 @@ void DrawEngine::Draw()
 			{
 
 				DWORD numberOfCharsWritten;
-#ifdef UNICODE
-				if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[x][y], (wcslen(&Map[x][y]) * sizeof(gchar_t)), location, &numberOfCharsWritten))
-#else
-				if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[x][y], (strlen(&Map[x][y]) * sizeof(gchar_t)), location, &numberOfCharsWritten))
-#endif
+				if (!WriteConsoleOutputCharacter(stdOutputHandle, &Map[x][y], (GCHARLEN(&Map[x][y]) * sizeof(gchar_t)), location, &numberOfCharsWritten))
 					THROWEXCEPTION("Failed to write to the console output at a given location!");
 
 				DWORD numberOfAttributesWritten;

@@ -37,9 +37,13 @@ SOFTWARE.
 #ifdef UNICODE
 typedef wchar_t gchar_t;
 typedef std::wstring gstring_t;
+#define GCHARLEN wcslen
+#define TOGSTRING std::to_wstring
 #else
 typedef char gchar_t;
 typedef std::string gstring_t;
+#define GCHARLEN strlen
+#define TOGSTRING std::to_string
 #endif
 
 class DrawEngine
