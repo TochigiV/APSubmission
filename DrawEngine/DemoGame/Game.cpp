@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2019 Tochigi
+Copyright (c) 2020 Bailey Brownie
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,74 +24,77 @@ SOFTWARE.
 
 #include "Game.h"
 
-Game::Game(gchar_t letter, int x, int y)
+namespace DemoGame
 {
-	drawEngine = std::make_unique<DrawEngine>();
-	if (drawEngine->GetChar(x, y) != '+')
+	Game::Game(DrawEngine::gchar_t letter, int x, int y)
 	{
-		playerX = x;
-		playerY = y;
-		prevChar = drawEngine->GetChar(x, y);
-		playerChar = letter;
-		drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
+		drawEngine = std::make_shared<DrawEngine::DrawEngine>();
+		if (drawEngine->GetChar(x, y) != '+')
+		{
+			playerX = x;
+			playerY = y;
+			prevChar = drawEngine->GetChar(x, y);
+			playerChar = letter;
+			drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
+		}
+		else Game(letter, (x + 1), (y + 1));
 	}
-	else Game(letter, (x + 1), (y + 1));
-}
 
-void Game::SetWallCharacter(gchar_t wallChar)
-{
-	wallChars = wallChar;
-}
-
-void Game::SetPlayerCharacter(gchar_t pChar)
-{
-	playerChar = pChar;
-}
-
-void Game::MovePlayerUp()
-{
-	if (playerY != 0 && drawEngine->GetChar(playerX, (playerY - 1)) != wallChars)
+	void Game::SetWallCharacter(DrawEngine::gchar_t wallChar)
 	{
-		drawEngine->DrawPixel(prevChar, playerX, playerY);
-		playerY--;
-		prevChar = drawEngine->GetChar(playerX, playerY);
-		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
+		wallChars = wallChar;
 	}
-}
 
-void Game::MovePlayerDown()
-{
-	if (playerY != (drawEngine->GetRows() - 1) && drawEngine->GetChar(playerX, (playerY + 1)) != wallChars)
+	void Game::SetPlayerCharacter(DrawEngine::gchar_t pChar)
 	{
-		drawEngine->DrawPixel(prevChar, playerX, playerY);
-		playerY++;
-		prevChar = drawEngine->GetChar(playerX, playerY);
-		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
+		playerChar = pChar;
 	}
-}
 
-void Game::MovePlayerLeft()
-{
-	if (playerX != 0 && drawEngine->GetChar((playerX - 1), playerY) != wallChars)
+	void Game::MovePlayerUp()
 	{
-		drawEngine->DrawPixel(prevChar, playerX, playerY);
-		playerX--;
-		prevChar = drawEngine->GetChar(playerX, playerY);
-		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
+		if (playerY != 0 && drawEngine->GetChar(playerX, (playerY - 1)) != wallChars)
+		{
+			drawEngine->DrawPixel(prevChar, playerX, playerY);
+			playerY--;
+			prevChar = drawEngine->GetChar(playerX, playerY);
+			if (prevChar == '#') { score++; prevChar = ' '; }
+			drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
+		}
 	}
-}
 
-void Game::MovePlayerRight()
-{
-	if (playerX != (drawEngine->GetColumns() - 1) && drawEngine->GetChar((playerX + 1), playerY) != wallChars)
+	void Game::MovePlayerDown()
 	{
-		drawEngine->DrawPixel(prevChar, playerX, playerY);
-		playerX++;
-		prevChar = drawEngine->GetChar(playerX, playerY);
-		if (prevChar == '#') { score++; prevChar = ' '; }
-		drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
+		if (playerY != (drawEngine->GetRows() - 1) && drawEngine->GetChar(playerX, (playerY + 1)) != wallChars)
+		{
+			drawEngine->DrawPixel(prevChar, playerX, playerY);
+			playerY++;
+			prevChar = drawEngine->GetChar(playerX, playerY);
+			if (prevChar == '#') { score++; prevChar = ' '; }
+			drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
+		}
+	}
+
+	void Game::MovePlayerLeft()
+	{
+		if (playerX != 0 && drawEngine->GetChar((playerX - 1), playerY) != wallChars)
+		{
+			drawEngine->DrawPixel(prevChar, playerX, playerY);
+			playerX--;
+			prevChar = drawEngine->GetChar(playerX, playerY);
+			if (prevChar == '#') { score++; prevChar = ' '; }
+			drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
+		}
+	}
+
+	void Game::MovePlayerRight()
+	{
+		if (playerX != (drawEngine->GetColumns() - 1) && drawEngine->GetChar((playerX + 1), playerY) != wallChars)
+		{
+			drawEngine->DrawPixel(prevChar, playerX, playerY);
+			playerX++;
+			prevChar = drawEngine->GetChar(playerX, playerY);
+			if (prevChar == '#') { score++; prevChar = ' '; }
+			drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
+		}
 	}
 }

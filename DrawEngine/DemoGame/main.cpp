@@ -1,7 +1,7 @@
 ﻿/*
 MIT License
 
-Copyright (c) 2019 Tochigi
+Copyright (c) 2020 Bailey Brownie
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,29 +24,26 @@ SOFTWARE.
 
 #include "Game.h"
 
-#define WAIT(x) Sleep((DWORD)(x * 1000))
+#include <ctime>
+
+#define WAIT(x) Sleep(static_cast<DWORD>(x * 1000))
 #define PAUSE() fputs("Press any key to continue . . . ", stdout); _getch(); fputc('\n', stdout);
 
 #define USE_ASYNC 1 //set to 0 if you want to use GetKeyState instead of GetAsyncKeyState
 #if USE_ASYNC
 	#define GETKEY(vkey) (GetAsyncKeyState(vkey) >> 15) //If vkey is down, the high bit is 1
 #else
-	#define GETKEY(vkey) (GetKeyState(vkey) >> 15) //If vkey is down, the high bit is 1
+	#define GETKEY(vkey) (GetKeyState(vkey) >> 15)
 #endif
 
-std::unique_ptr<Game> game;
-DrawEngine* drawEngine;
-
-int totalGold;
-
-void generateGold()
+void generateGold(std::shared_ptr<DrawEngine::DrawEngine> drawEngine, int &totalGold)
 {
-	srand((unsigned int)time(nullptr));
-	int ammount = rand() % 51;
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+	int ammount = std::rand() % 50 + 1;
 	for (totalGold = 0; totalGold != ammount; totalGold++)
 	{
-		int x = (rand() % (drawEngine->GetColumns() - 1)) + 1;
-		int y = rand() % drawEngine->GetRows();
+		int x = std::rand() % (drawEngine->GetColumns() - 1) + 1;
+		int y = std::rand() % (drawEngine->GetRows() - 1) + 1;
 		wchar_t currentChar = drawEngine->GetChar(x, y);
 		if (currentChar != TEXT('+') && currentChar != TEXT('@') && currentChar != TEXT('&'))
 			drawEngine->DrawPixel(TEXT('#'), x, y, 14);
@@ -59,18 +56,19 @@ int main()
 	HWND consoleWindow = GetConsoleWindow();
 	SetConsoleTitle(TEXT("DemoGame"));
 	SetWindowLong(consoleWindow, GWL_STYLE, GetWindowLong(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
+
 	try
 	{
-		game = std::make_unique<Game>(TEXT('@'), 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
+		auto game = std::make_unique<DemoGame::Game>(TEXT('@'), 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
 		game->SetWallCharacter(TEXT('+')); //sets the character that will act as a wall
-		drawEngine = game->drawEngine.get();
-		drawEngine->FillScreen(TEXT(' '));
+		auto drawEngine = game->GetDrawEngine(); //get DrawEngine instance
+		drawEngine->FillScreen(TEXT(' ')); //create blank screen
 		drawEngine->PutText(TEXT("+ = wall"), 20, 11);
 		drawEngine->PutText(TEXT("@ = player"), 20, 12);
 		drawEngine->PutText(TEXT("# = gold coin"), 20, 13);
 		drawEngine->PutText(TEXT("W, A, S, D, Up Arrow, Down Arrow, Left Arrow, Right Arrow = movement"), 20, 14);
 		drawEngine->PutText(TEXT("Press Enter to continue (or Esc to exit)"), 20, 15);
-		drawEngine->Draw();
+		drawEngine->Draw(); //write changes to console screen
 		WAIT(0.1);
 		while (true) {
 			if (consoleWindow == GetForegroundWindow())
@@ -88,8 +86,10 @@ int main()
 		drawEngine->DrawRectangle(TEXT('+'), 0, 1, 11, 1);
 		drawEngine->DrawRectangle(TEXT('+'), 10, 0, 1, 1);
 
-		generateGold();
-	
+		int totalGold = 0;
+		generateGold(drawEngine, totalGold);
+		auto &score = game->GetScore();
+
 		while (true) {
 			if (consoleWindow == GetForegroundWindow())
 			{
@@ -104,26 +104,27 @@ int main()
 				else if (GETKEY(0x44/*D*/) || GETKEY(VK_RIGHT))
 					game->MovePlayerRight();
 			}
-	
-			if (game->score > 9999) game->score = 9999;
-			if (game->score == totalGold)
+
+			if (score > 9999) score = 9999;
+			if (score == totalGold)
 			{
 				if (MessageBox(NULL, TEXT("You got all of the gold! Play again?"), TEXT("Congrats!"), MB_YESNO) != IDYES)
 					break;
-				game->score = 0;
+				score = 0;
 				totalGold = 0;
 				drawEngine->DrawRectangle(TEXT(' '), 0, 0, 10, 1);
-				generateGold();
+				generateGold(drawEngine, totalGold);
 			}
-			gstring_t scoreString = TEXT("Gold: ") + TOGSTRING(game->score);
+			auto scoreString = TEXT("Gold: ") + DrawEngine::to_gstring(score);
 			drawEngine->PutText(scoreString.c_str(), 0, 0);
 			drawEngine->Draw();
 		}
 	}
-	catch (gstring_t exceptionMessage)
+	catch (DrawEngine::gstring_t exceptionMessage)
 	{
 		MessageBox(consoleWindow, exceptionMessage.c_str(), TEXT("Error"), MB_OK | MB_ICONERROR);
 	}
+
 	end:
 	return 0;
 }

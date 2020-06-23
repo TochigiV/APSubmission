@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2019 Tochigi
+Copyright (c) 2020 Bailey Brownie
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,33 +22,45 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef __GAME_H
+#define __GAME_H
 
 #include <DrawEngine.h>
+#include <memory>
 
-class Game
+namespace DemoGame
 {
-private:
-	int playerX;
-	int playerY;
+	class Game
+	{
+	private:
+		int playerX;
+		int playerY;
+		int score;
 
-	gchar_t prevChar;
-	gchar_t playerChar;
-	gchar_t wallChars;
+		DrawEngine::gchar_t prevChar;
+		DrawEngine::gchar_t playerChar;
+		DrawEngine::gchar_t wallChars;
 
-public:
-	std::unique_ptr<DrawEngine> drawEngine;
-	int score = 0;
+		std::shared_ptr<DrawEngine::DrawEngine> drawEngine;
 
-	Game(gchar_t letter, int x, int y);
-	void SetWallCharacter(gchar_t wallChar);
-	void SetPlayerCharacter(gchar_t pChar);
+	public:
 
-	void MovePlayerUp();
-	void MovePlayerDown();
-	void MovePlayerLeft();
-	void MovePlayerRight();
+		Game(DrawEngine::gchar_t letter, int x, int y);
+		void SetWallCharacter(DrawEngine::gchar_t wallChar);
+		void SetPlayerCharacter(DrawEngine::gchar_t pChar);
 
-	int GetPlayerX() { return playerX; }
-	int GetPlayerY() { return playerY; }
-};
+		void MovePlayerUp();
+		void MovePlayerDown();
+		void MovePlayerLeft();
+		void MovePlayerRight();
+
+		int GetPlayerX() { return playerX; }
+		int GetPlayerY() { return playerY; }
+
+		int &GetScore() { return score; }
+
+		std::shared_ptr<DrawEngine::DrawEngine> GetDrawEngine() { return drawEngine; }
+	};
+}
+
+#endif
