@@ -60,8 +60,7 @@ int main()
 	try
 	{
 		auto game = std::make_unique<DemoGame::Game>(TEXT('@'), 10, 10); //new game instance, spawn player (@) at x: 10 y: 10
-		game->SetWallCharacter(TEXT('+')); //sets the character that will act as a wall
-		auto drawEngine = game->GetDrawEngine(); //get DrawEngine instance
+		auto drawEngine = game->GetDrawEngine().lock(); //get DrawEngine instance
 		drawEngine->FillScreen(TEXT(' ')); //create blank screen
 		drawEngine->PutText(TEXT("+ = wall"), 20, 11);
 		drawEngine->PutText(TEXT("@ = player"), 20, 12);

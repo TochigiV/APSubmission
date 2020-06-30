@@ -51,7 +51,7 @@ namespace DrawEngine
 		inline size_t __cdecl gcharlen(const char* str);
 
 		template<typename T>
-		constexpr const auto to_gstring(T val)
+		constexpr auto to_gstring(T val)
 		{
 			return std::to_string(val);
 		}

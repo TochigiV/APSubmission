@@ -45,7 +45,7 @@ namespace DemoGame
 
 	public:
 
-		Game(DrawEngine::gchar_t letter, int x, int y);
+		Game(DrawEngine::gchar_t letter, int x, int y, DrawEngine::gchar_t wallChar = '+');
 		void SetWallCharacter(DrawEngine::gchar_t wallChar);
 		void SetPlayerCharacter(DrawEngine::gchar_t pChar);
 
@@ -56,10 +56,9 @@ namespace DemoGame
 
 		int GetPlayerX() { return playerX; }
 		int GetPlayerY() { return playerY; }
-
 		int &GetScore() { return score; }
 
-		std::shared_ptr<DrawEngine::DrawEngine> GetDrawEngine() { return drawEngine; }
+		std::weak_ptr<DrawEngine::DrawEngine> GetDrawEngine() { return drawEngine; }
 	};
 }
 

@@ -26,18 +26,14 @@ SOFTWARE.
 
 namespace DemoGame
 {
-	Game::Game(DrawEngine::gchar_t letter, int x, int y)
+	Game::Game(DrawEngine::gchar_t letter, int x, int y, DrawEngine::gchar_t wallChar) : drawEngine(std::make_shared<DrawEngine::DrawEngine>())
 	{
-		drawEngine = std::make_shared<DrawEngine::DrawEngine>();
-		if (drawEngine->GetChar(x, y) != '+')
-		{
-			playerX = x;
-			playerY = y;
-			prevChar = drawEngine->GetChar(x, y);
-			playerChar = letter;
-			drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
-		}
-		else Game(letter, (x + 1), (y + 1));
+		playerX = x;
+		playerY = y;
+		prevChar = drawEngine->GetChar(x, y);
+		playerChar = letter;
+		wallChars = wallChar;
+		drawEngine->DrawPixel(playerChar, playerX, playerY, 10);
 	}
 
 	void Game::SetWallCharacter(DrawEngine::gchar_t wallChar)
